@@ -33,16 +33,12 @@ node core/render/events.mjs "$HERE"
 node core/render/video.mjs "$HERE" --fps 24 --workers 4 --out "$HERE/out/video.mp4"
 cd "$HERE"
 
-# sound: score, foley, beds, voice -> out/mix.wav (mastered to -14 LUFS, true peak -1.6 dBTP in mix.py)
+# sound: score, foley, beds, voice -> out/mix.wav (pre-mastered to -14 LUFS, true peak -3.5 dBTP in mix.py)
 "$PY" mix.py
 "$PY" -I tools/audiocheck.py .
 
-# master: core/render/mux.sh needs ffmpeg 7; with an older ffmpeg, mux without re-normalising (mix.wav is already at -14 LUFS)
-if ffmpeg -version | head -1 | grep -qE 'version [7-9]'; then
-  sh "$LIB/core/render/mux.sh" out/video.mp4 out/mix.wav hormuz.mp4 24 2
-else
-  sh tools/mux_plain.sh out/video.mp4 out/mix.wav hormuz.mp4 2
-fi
+# master: two-pass loudnorm to -14 LUFS, grain
+sh "$LIB/core/render/mux.sh" out/video.mp4 out/mix.wav hormuz.mp4 24 2
 
 # subtitles and poster
 "$PY" -I tools/cues.py .

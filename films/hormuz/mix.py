@@ -296,7 +296,7 @@ def limiter(x, ceil, look=.004, rel=.08):
 mix = mix[:int(DUR * SR)].astype(np.float64)
 for _ in range(3):
     mix *= 10 ** ((-14.0 - lufs(mix)) / 20)
-    mix = limiter(mix, 10 ** (-1.6 / 20))
+    mix = limiter(mix, 10 ** (-3.5 / 20))   # AAC adds ~2-3 dB of true peak
 print(f'loudness {lufs(mix):.2f} LUFS, true peak {20 * np.log10(true_peak(mix)):.2f} dBTP')
 sf.write(os.path.join(HERE, 'out/mix.wav'), mix.astype(np.float32), SR, subtype='PCM_24')
 json.dump(S.credits(['timpani', 'bass_drum', 'gran_cassa', 'trombone', 'trombone_stac', 'tuba', 'tuba_stac', 'horn', 'horn_stac', 'vibraphone_bowed', 'sus_cymbal', 'gong', 'glass']), open(os.path.join(HERE, 'out/instrument_credits.json'), 'w'), ensure_ascii=False, indent=1)
