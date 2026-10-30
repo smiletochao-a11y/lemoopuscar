@@ -180,7 +180,7 @@ function render(t) {
     shade: ss(seg(alt, 1500, 6000)), expo: 1.0, detail: alt < 14 ? 0.5 : alt < 90 ? 0.35 : alt < 900 ? 0.85 : 0.4, clarity: alt < 14 ? 0.25 : alt < 90 ? 0.3 : alt < 900 ? 0.45 : 0.12, contrast: alt < 14 ? 1.15 : 1,
     blur, blurVec: [1, 0], dim: 0.55 * ss(seg(t, HIT.open, HIT.open + 1.2)),
     scan: t < 1.9 ? lerp(SHIP[1] + 0.03, SHIP[1] - 0.03, eo(seg(t, HIT.scanIn, 1.9))) : -90, scanGlow: 1 - seg(t, 1.6, 1.9),
-    focus: [RASLAFFAN[0], RASLAFFAN[1], 0.32], focusDim: 0.6 * ss(seg(t, HIT.lng, HIT.lng + .8)) * (1 - ss(seg(t, SEC.bypass[0], SEC.bypass[0] + 1.5))),
+    focus: [RASLAFFAN[0], RASLAFFAN[1], 0.42], focusDim: 0.35 * ss(seg(t, HIT.lng, HIT.lng + .8)) * (1 - ss(seg(t, SEC.bypass[0], SEC.bypass[0] + 1.5))),
   });
   ctx.clearRect(0, 0, W, H);
   const fadeIn = seg(t, 0.4, 1.4);
@@ -219,7 +219,7 @@ function render(t) {
   }
   // ---- 3. the range line: Great Quoin -> Larak
   {
-    const a = fade(t, HIT.rangeStart - .5, SEC.lanes[0] + 2.5, .4, .8);
+    const a = fade(t, HIT.rangeStart - .5, SEC.lanes[0] + 0.9, .4, .9);
     if (a > 0) {
       const u = eio(seg(t, HIT.rangeStart + .3, HIT.rangeLand));
       const [qx, qy] = P2(cam, QUOIN);
@@ -269,7 +269,7 @@ function render(t) {
     readout(ctx, 1270, 470, { label: '2024 年平均每天通过', value: fmtInt(v) + '万', unit: '桶', note: 'EIA, 2025-06', alpha: ra, id: 'r-flow', rep: '2000万', dim: t < HIT.count + 1.6 ? .6 : 1 });
     const sa = fade(t, HIT.share, HIT.whip + .1, .3, .25);
     readout(ctx, 1270, 470, { label: '约占全球石油消费', value: '1/5', note: 'EIA, 2025-06', alpha: sa, id: 'r-share' });
-    const la = fade(t, HIT.lng + .3, SEC.bypass[0] + .3, .3, .4);
+    const la = fade(t, HIT.lng + .3, SEC.bypass[0] + 1.4, .3, .4);
     readout(ctx, 1270, 470, { label: '全球液化天然气贸易', value: '≈1/5', note: 'EIA, 2025-06 · 主要来自卡塔尔', alpha: la, id: 'r-lng' });
     groundLabel(cam, RASLAFFAN, '拉斯拉凡 · 卡塔尔', { dx: 22, dy: -22, alpha: la, id: 'g-rl' });
     const lockA = fade(t, HIT.lng, SEC.bypass[0] + .3, .2, .4);
@@ -279,14 +279,14 @@ function render(t) {
   {
     const a = fade(t, HIT.pipes - .2, SEC.hush2[1] + .6, .3, .8);
     if (a > 0) {
-      const st = { w: 3, col: C.mapLine, alpha: a, dash: [12, 8] };
+      const st = { w: 3.5, col: C.map, alpha: a, dash: [14, 8], haloCol: 'rgba(242,245,246,.55)' };
       const t1 = polyGrow(cam, PIPE_EW, eio(seg(t, HIT.pipes, HIT.pipes + 2.4)), st);
       const t2 = polyGrow(cam, PIPE_UAE, eio(seg(t, HIT.pipes + 1.4, HIT.pipes + 2.8)), st);
       const la = a * seg(t, HIT.pipes + 2.2, HIT.pipes + 2.8);
       groundLabel(cam, PIPE_EW[PIPE_EW.length - 1], '延布', { dx: -16, dy: 44, alpha: la, id: 'g-yanbu', align: 'right', size: 28 });
       groundLabel(cam, PIPE_EW[0], '阿布盖格', { dx: -18, dy: -22, alpha: la, id: 'g-abq', align: 'right', size: 28 });
       groundLabel(cam, PIPE_UAE[PIPE_UAE.length - 1], '富查伊拉', { dx: 20, dy: 34, alpha: la, id: 'g-fuj', size: 28 });
-      text(ctx, '输油管道（示意走向）', 96, 200, { font: '400 23px SC', col: C.mapLine, alpha: la, id: 'pipe-legend' });
+      text(ctx, '输油管道（示意走向）', 96, 200, { font: '500 24px SC', col: C.mapLine, alpha: la, id: 'pipe-legend' });
       const [hx, hy] = P2(cam, [56.45, 26.45]);
       reticle(hx, hy, 16, a * seg(t, HIT.pipes, HIT.pipes + .4), 1);
       groundLabel(cam, [56.45, 26.45], '海峡', { dx: 22, dy: -26, dot: false, alpha: la, id: 'g-door', size: 28 });
@@ -314,7 +314,7 @@ function render(t) {
       }
     }
     const ra = fade(t, HIT.routes + .2, HIT.relock - .1, .3, .5);
-    readout(ctx, 1270, 470, { label: '经海峡的原油运往亚洲', value: '84%', note: 'EIA, 2024 年数据', alpha: ra, id: 'r-asia' });
+    readout(ctx, 1270, 760, { label: '经海峡的原油运往亚洲', value: '84%', note: 'EIA, 2024 年数据', alpha: ra, id: 'r-asia' });
   }
   // ---- 8. the relock and the title
   {
@@ -330,7 +330,7 @@ function render(t) {
         const ta = seg(t, HIT.open + .9, HIT.open + 1.8);
         text(ctx, '窄门', 960, 548, { font: '600 120px SS', align: 'center', alpha: ta, track: 24, id: 'title', halo: 16 });
         text(ctx, '霍尔木兹海峡', 960, 622, { font: '500 36px SC', align: 'center', alpha: ta, track: 10, id: 'subtitle-card' });
-        text(ctx, '数据：EIA（2025）· 影像：USGS Landsat，Copernicus Sentinel-2，NASA Blue Marble', 960, 700, { font: '400 22px SC', col: 'rgba(242,245,246,.75)', align: 'center', alpha: seg(t, HIT.open + 1.6, HIT.open + 2.4), id: 'sources' });
+        text(ctx, '数据：EIA（2025）· 影像：USGS Landsat，Copernicus Sentinel-2，NASA Blue Marble', 960, 700, { font: '400 22px SC', col: 'rgba(242,245,246,.75)', align: 'center', alpha: seg(t, HIT.open + 1.0, HIT.open + 1.6), id: 'sources' });
       }
       groundLabel(cam, [56.45, 26.45], '海峡', { dx: 22, dy: -24, dot: false, alpha: a * (1 - open) * seg(t, HIT.relock + .3, HIT.relock + .8), id: 'g-door2', size: 28 });
     }

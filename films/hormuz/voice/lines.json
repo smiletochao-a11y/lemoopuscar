@@ -1,0 +1,155 @@
+[
+ {
+  "id": "l01",
+  "text": "海峡里的一艘船，长约 320 米。",
+  "say": "海峡里的一艘船，长约三百二十米。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l02",
+  "text": "这是超大型油轮的尺寸：满载约 200 万桶原油。",
+  "say": "这是超大型油轮的尺寸：满载约两百万桶原油。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l03",
+  "text": "每天经过这里的石油，能装满约 10 艘这样的船。",
+  "say": "每天经过这里的石油，能装满约十艘这样的船。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l04",
+  "text": "它们都要穿过同一扇门：",
+  "say": "它们都要穿过同一扇门：",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%",
+  "asr": "他们都要穿过同一扇门"
+ },
+ {
+  "id": "l05",
+  "text": "霍尔木兹海峡。",
+  "say": "霍尔木兹海峡。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%",
+  "asr": "霍爾穆斯海峽"
+ },
+ {
+  "id": "l06",
+  "text": "海峡最窄处，在大昆岛和拉腊克岛之间，",
+  "say": "海峡最窄处，在大昆岛和拉腊克岛之间，",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%",
+  "asr": "海峡最窄处,在大坤岛和拉拉克岛之间"
+ },
+ {
+  "id": "l07",
+  "text": "宽 38.6 公里。",
+  "say": "宽三十八点六公里。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l08",
+  "text": "但大船不能随意通行。",
+  "say": "但大船不能随意通行。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l09",
+  "text": "进港、出港，各有一条航道，",
+  "say": "进港、出港，各有一条航道，",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%",
+  "asr": "京港、出港各有一条行道"
+ },
+ {
+  "id": "l10",
+  "text": "每条只有约 3 公里宽。",
+  "say": "每条只有约三公里宽。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l11",
+  "text": "2024 年，平均每天 2000 万桶石油从这里通过，",
+  "say": "二零二四年，平均每天两千万桶石油从这里通过，",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l12",
+  "text": "约占全球石油消费的五分之一。",
+  "say": "约占全球石油消费的五分之一。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l13",
+  "text": "全球约五分之一的液化天然气，也走这条路。",
+  "say": "全球约五分之一的液化天然气，也走这条路。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l14",
+  "text": "有没有别的路？",
+  "say": "有没有别的路？",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l15",
+  "text": "沙特和阿联酋修了绕开海峡的输油管道。",
+  "say": "沙特和阿联酋修了绕开海峡的输油管道。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%",
+  "asr": "沙特和阿林求修了绕开海峡的输油管道"
+ },
+ {
+  "id": "l16",
+  "text": "可一旦海峡被封，管道还能多运的",
+  "say": "可一旦海峡被封，管道还能多运的",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l17",
+  "text": "只有每天约 260 万桶，约为平时的 13%。",
+  "say": "只有每天约两百六十万桶，约为平时的百分之十三。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l18",
+  "text": "穿过海峡的原油，84% 运往亚洲。",
+  "say": "穿过海峡的原油，百分之八十四运往亚洲。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l19",
+  "text": "中国、印度、日本、韩国，是最大的买家。",
+  "say": "中国、印度、日本、韩国，是最大的买家。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l20",
+  "text": "从这里看，它只是一个点。",
+  "say": "从这里看，它只是一个点。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%"
+ },
+ {
+  "id": "l21",
+  "text": "可全世界五分之一的石油，系在这一个点上。",
+  "say": "可全世界五分之一的石油，系在这一个点上。",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-6%",
+  "asr": "可全世界五分之一的石油 记载这一个点上"
+ }
+]

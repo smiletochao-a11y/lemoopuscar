@@ -1,0 +1,28 @@
+窄门 · 霍尔木兹海峡 — third-party material and licences
+
+Imagery
+- USGS Landsat 8/9 Collection 2 Level-2 (public domain, courtesy of the U.S. Geological Survey), accessed through the
+  Microsoft Planetary Computer STAC/data API. Scenes: LC09_L2SP_159041/159042/159043_20250125, LC08_L2SP_160041/160042/160043_20250124,
+  LC08_L2SP_158042/158043_20250110, LC08_L2SP_161041_20250115, LC08_L2SP_162041/162042/162043_20250122,
+  LC09_L2SP_163041/163042/163043_20250121 (plates.json lists which ones each plate uses).
+- Contains modified Copernicus Sentinel data 2025 (Sentinel-2 L2A, S2C_MSIL2A_20250221T064931_R020_T40RDQ), via the Microsoft Planetary Computer.
+- NASA Blue Marble: Next Generation (public domain, NASA Earth Observatory), via NASA GIBS.
+- Natural Earth 10m land / minor islands (public domain), used only for a first coarse measurement.
+  Every request URL is logged in assets/raw/manifest.jsonl.
+
+Data
+- U.S. Energy Information Administration (public domain): "Amid regional conflict, the Strait of Hormuz remains critical oil chokepoint", 2025-06-16;
+  "World Oil Transit Chokepoints". Quotes and measurements: FACTS.md.
+
+Fonts (SIL Open Font License 1.1, files and licences in fonts/)
+- Barlow Condensed (Jeremy Tribby), IBM Plex Mono (IBM), Noto Sans SC and Noto Serif SC (Google; subsets via Google Fonts).
+
+Voice
+- Narration synthesised with Microsoft Edge neural text-to-speech (zh-CN-YunyangNeural) through edge-tts (LGPL-3.0); speech check with faster-whisper (MIT).
+
+Music and sound
+- Original score and sound design, synthesised in numpy, with samples:
+  Samples (CC0): FreePats project (freepats.zenvoid.org), VS Chamber Orchestra: Community Edition (Versilian Studios),
+  Versilian Community Sample Library (Versilian Studios).
+
+This is an independent explainer made from public-domain and openly licensed sources; USGS, NASA, ESA/Copernicus and EIA did not make or endorse it.

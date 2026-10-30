@@ -154,7 +154,7 @@ vec3 shade(vec2 frag){
   col += uShade * pow(1. - mu, 3.) * mix(vec3(.25, .45, .85), vec3(.6, .65, .7), uGrey) * .55;
   if (uFocusDim > 0.) {
     float r = length(vec2((ll.y - uFocus.x) * cos(radians(ll.x)), ll.x - uFocus.y));
-    col *= 1. - uFocusDim * smoothstep(uFocus.z, uFocus.z * 1.6, r);
+    col *= 1. - uFocusDim * smoothstep(uFocus.z * .6, uFocus.z * 2.4, r);
   }
   // the reveal scan: a soft swath (a satellite pass), not a hairline
   if (uScan > -89.) {
