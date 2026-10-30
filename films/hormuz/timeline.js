@@ -1,0 +1,44 @@
+// One timeline: tempo, sections, hits and narration. film.js, the score and the checks read these numbers.
+export const BPM = 90, BEAT = 60 / BPM, BAR = 4 * BEAT;   // 0.667 s, 2.667 s
+export const DUR = 112;
+
+// sections (treatment §6), in seconds
+export const SEC = {
+  lock: [0, 8], climb: [8, 21.33], measure: [21.33, 34.67], hush1: [34.67, 36], lanes: [36, 48],
+  weight: [48, 61.33], bypass: [61.33, 77.33], hush2: [77.33, 80.5], orbit: [80.5, 101.33], title: [101.33, 112],
+};
+
+// key picture events; each one lands on the beat grid (cuecheck)
+export const HIT = {
+  scanIn: 0.67, lock: 2.0, shipLabel: 4.67, climb: 8.67, name: 16.0, alt: 20.0,
+  rangeStart: 23.33, rangeLand: 30.0, lane1: 36.67, lane2: 39.33, laneRead: 43.33,
+  count: 48.67, share: 53.33, whip: 57.33, lng: 58.0, pipes: 62.67, spare: 70.0, eighth: 74.67,
+  colour: 80.5, routes: 83.33, buyers: 89.33, relock: 95.33, open: 104.0,
+};
+
+// narration: id, start time, Chinese text (subtitle), spoken text (numbers spelled out)
+export const LINES = [
+  { id: 'l01', t: 1.6, zh: '海峡里的一艘船，长约 320 米。', say: '海峡里的一艘船，长约三百二十米。' },
+  { id: 'l02', t: 4.9, zh: '这是超大型油轮的尺寸：满载约 200 万桶原油。', say: '这是超大型油轮的尺寸：满载约两百万桶原油。' },
+  { id: 'l03', t: 9.4, zh: '每天经过这里的石油，能装满约 10 艘这样的船。', say: '每天经过这里的石油，能装满约十艘这样的船。' },
+  { id: 'l04', t: 15.6, zh: '它们都要穿过同一扇门：', say: '它们都要穿过同一扇门：' },
+  { id: 'l05', t: 18.4, zh: '霍尔木兹海峡。', say: '霍尔木兹海峡。' },
+  { id: 'l06', t: 23.6, zh: '海峡最窄处，在大昆岛和拉腊克岛之间，', say: '海峡最窄处，在大昆岛和拉腊克岛之间，' },
+  { id: 'l07', t: 29.0, zh: '宽 38.6 公里。', say: '宽三十八点六公里。' },
+  { id: 'l08', t: 36.4, zh: '但大船不能随意通行。', say: '但大船不能随意通行。' },
+  { id: 'l09', t: 39.4, zh: '进、出各一条航道，', say: '进、出各一条航道，' },
+  { id: 'l10', t: 42.4, zh: '每条只有约 3 公里宽。', say: '每条只有约三公里宽。' },
+  { id: 'l11', t: 48.3, zh: '2024 年，平均每天 2000 万桶石油从这里通过，', say: '二零二四年，平均每天两千万桶石油从这里通过，' },
+  { id: 'l12', t: 53.4, zh: '约占全球石油消费的五分之一。', say: '约占全球石油消费的五分之一。' },
+  { id: 'l13', t: 57.8, zh: '全球约五分之一的液化天然气，也走这条路。', say: '全球约五分之一的液化天然气，也走这条路。' },
+  { id: 'l14', t: 62.0, zh: '有没有别的路？', say: '有没有别的路？' },
+  { id: 'l15', t: 64.2, zh: '沙特和阿联酋修了绕开海峡的输油管道。', say: '沙特和阿联酋修了绕开海峡的输油管道。' },
+  { id: 'l16', t: 69.4, zh: '可一旦断航，能临时调用的余量', say: '可一旦断航，能临时调用的余量' },
+  { id: 'l17', t: 72.6, zh: '只有约 260 万桶，约为日常运量的 13%。', say: '只有约两百六十万桶，约为日常运量的百分之十三。' },
+  { id: 'l18', t: 83.6, zh: '穿过海峡的原油，84% 运往亚洲。', say: '穿过海峡的原油，百分之八十四运往亚洲。' },
+  { id: 'l19', t: 89.4, zh: '中国、印度、日本、韩国，是最大的买家。', say: '中国、印度、日本、韩国，是最大的买家。' },
+  { id: 'l20', t: 95.6, zh: '从这里看，它只是一个点。', say: '从这里看，它只是一个点。' },
+  { id: 'l21', t: 99.0, zh: '可全世界五分之一的石油，系在这一个点上。', say: '可全世界五分之一的石油，系在这一个点上。' },
+];
+// subtitle end times until the voice exists (replaced by measured durations + 0.6 s)
+export const EST_CPS = 4.6;

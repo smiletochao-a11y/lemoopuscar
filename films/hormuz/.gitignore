@@ -1,0 +1,7 @@
+# downloads and renders are rebuilt by build.sh
+assets/raw/
+stills/
+out/
+voice/.cache/
+storyboard/.font.ttf
+bin/

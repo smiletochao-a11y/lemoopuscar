@@ -1,0 +1,96 @@
+{
+ "strait": {
+  "collection": "landsat-c2-l2",
+  "platforms": [
+   "landsat-8",
+   "landsat-9"
+  ],
+  "bands": [
+   "blue",
+   "green",
+   "red",
+   "nir08",
+   "swir16"
+  ],
+  "max_cloud": 10,
+  "datetime": "2024-11-01/2025-03-31",
+  "target": "2025-01-15",
+  "lat0": 26.3,
+  "bbox": [
+   55.2,
+   25.2,
+   57.8,
+   27.4
+  ],
+  "plate": [
+   55.2,
+   25.2,
+   57.8,
+   27.4
+  ],
+  "dlon": 0.0008,
+  "fill_datetime": "2024-10-01/2025-04-30"
+ },
+ "narrows": {
+  "collection": "landsat-c2-l2",
+  "platforms": [
+   "landsat-8",
+   "landsat-9"
+  ],
+  "bands": [
+   "blue",
+   "green",
+   "red",
+   "nir08",
+   "swir16"
+  ],
+  "max_cloud": 10,
+  "datetime": "2024-11-01/2025-03-31",
+  "target": "2025-01-15",
+  "lat0": 26.3,
+  "bbox": [
+   56.0,
+   26.1,
+   57.0,
+   27.0
+  ],
+  "plate": [
+   56.0,
+   26.1,
+   57.0,
+   27.0
+  ],
+  "dlon": 0.0003
+ },
+ "qatar": {
+  "collection": "landsat-c2-l2",
+  "platforms": [
+   "landsat-8",
+   "landsat-9"
+  ],
+  "bands": [
+   "blue",
+   "green",
+   "red",
+   "nir08",
+   "swir16"
+  ],
+  "max_cloud": 10,
+  "datetime": "2024-11-01/2025-03-31",
+  "target": "2025-01-15",
+  "lat0": 26.3,
+  "bbox": [
+   50.7,
+   25.0,
+   53.0,
+   26.8
+  ],
+  "plate": [
+   50.7,
+   25.0,
+   53.0,
+   26.8
+  ],
+  "dlon": 0.0006
+ }
+}

@@ -1,0 +1,39 @@
+{
+ "oman_point": [
+  56.5124,
+  26.507022111932145
+ ],
+ "iran_point": [
+  56.3669,
+  26.82895038908284
+ ],
+ "km_plane": 38.43385624855382,
+ "km_great_circle": 38.60623174165559,
+ "scenes": [
+  {
+   "id": "LC09_L2SP_159042_20250125_02_T1",
+   "date": "2025-01-25",
+   "cloud": 0.31,
+   "pixels": 7857405
+  },
+  {
+   "id": "LC08_L2SP_160041_20250124_02_T1",
+   "date": "2025-01-24",
+   "cloud": 0.33,
+   "pixels": 2067466
+  },
+  {
+   "id": "LC08_L2SP_160042_20250124_02_T1",
+   "date": "2025-01-24",
+   "cloud": 0.4,
+   "pixels": 965577
+  },
+  {
+   "id": "LC09_L2SP_159041_20250125_02_T1",
+   "date": "2025-01-25",
+   "cloud": 0.16,
+   "pixels": 181766
+  }
+ ],
+ "method": "MNDWI(green,swir16)>0 water on Landsat C2 L2 composite, land components >= 150 px (13 ha), nearest land-to-land"
+}
