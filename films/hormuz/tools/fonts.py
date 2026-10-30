@@ -7,7 +7,7 @@ Characters are collected from film.js, overlay.js and timeline.js (every CJK cha
 plus the Latin digits and signs so mixed strings render in one face."""
 import sys, os, re, urllib.request, urllib.parse
 D = sys.argv[1]
-src = ''.join(open(os.path.join(D, f), encoding='utf-8').read() for f in ('film.js', 'overlay.js', 'timeline.js'))
+src = ''.join(open(os.path.join(D, f), encoding='utf-8').read() for f in ('film.js', 'overlay.js', 'timeline.js', 'cover/cover.js'))
 cjk = sorted(set(re.findall(r'[　-〿一-鿿＀-￯·×→]', src)))
 extra = '0123456789%.,:;-+()/°²=→·≈<÷ ' + ''.join(chr(c) for c in range(65, 91)) + ''.join(chr(c) for c in range(97, 123))   # Latin inside Chinese labels (Landsat, km)
 text = ''.join(cjk) + extra
