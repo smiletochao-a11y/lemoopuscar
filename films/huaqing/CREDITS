@@ -1,0 +1,22 @@
+华清池 · 她还剩两百多天 — third-party material and licences
+
+Narration
+- Doubao speech synthesis 2.0 (Volcengine / ByteDance), voice 解说小明 (zh_male_jieshuoxiaoming_uranus_bigtts), generated with the
+  owner's own API key. Usage of the audio is governed by the owner's Volcengine service agreement.
+- Speech check: faster-whisper (MIT).
+
+Music and sound
+- Original guqin score and procedural foley. Guqin and pipa by physical modelling (core/audio/pluck.py). Samples (CC0):
+  VS Chamber Orchestra: Community Edition and Versilian Community Sample Library (Versilian Studios) — flute (as xiao),
+  woodblock, frame drum, bass drum, timpani, small gong.
+
+Fonts (SIL Open Font License 1.1)
+- Noto Serif SC (Google), Ma Shan Zheng (Ma Shan Zheng); subsets via Google Fonts.
+
+Engine
+- Ink brush engine and rice-paper compositor adapted from this library's ink-wash style (ink.js, comp.js, land.js).
+
+Sources
+- 司马光《资治通鉴》卷二一七（天宝十四载冬十月庚寅幸华清宫；十一月甲子安禄山反；庚午上闻禄山定反）。
+- 白居易《长恨歌》（806）。
+- 唐华清宫御汤遗址（1982 年发现，海棠汤）。
