@@ -59,7 +59,7 @@ S.s1 = (A, t, TMP) => {
   poolTop(A, t);
   steam(A.ink, { x: 560, y: 1500, w: 900, h: 1300, t, n: 16, seed: 3, tone: .12 });
   const k = eo(seg(t, .2, HIT.hand));                      // the hand reaches in
-  hand(A.ink, lerp(1250, 640, k), lerp(-60, 330, k), 4.2, { ang: Math.PI - .95, seed: 31 });
+  hand(A.ink, lerp(1300, 659, k), lerp(-160, 470, k), 5.5, { ang: Math.PI - .95, seed: 31 });
   const tr = Math.max(0, t - HIT.hand);
   for (let j = 0; j < 3; j++) { const a = tr - j * .55; if (a > 0) ripple(A.ink, 420, 690, 30 + Math.pow(a, .6) * 150, clamp(1 - a / 2.6), 7 + j, .32, 3.5); }
   const sk = seg(t, HIT.stamp, HIT.stamp + .18);
@@ -95,7 +95,7 @@ S.s3 = (A, t, TMP) => {
   const bun = L.bun;
   petal(A.ink, lerp(L.hand[0], bun[0], pk), lerp(L.hand[1], bun[1], pk), 2.2, -.5, 1, 7);
   steam(A.ink, { x: 480, y: 1700, w: 1100, h: 1400, t, n: 12, seed: 13, tone: .1 });
-  writeCols(A, TMP, POEM, 960, 260, 104, seg(t, 11.8, 17.2), { colGap: 1.25 });
+  writeCols(A, TMP, POEM, 960, 260, 104, seg(t, 11.6, 16.1), { colGap: 1.25 });
   return { paper: [0, 0, 1], bleed: 6, rim: .8 };
 };
 const LOADP = (w, tone, dark, seed) => ({ w, tone, darkDir: dark, side: .85, brWet: true, body: .25, dry: .45, wet: .9, prof: 'even', seed });
@@ -247,9 +247,9 @@ S.s13 = (A, t, TMP) => {
     // the hand holding it from below: palm and thumb at the lower right corner, fingertips on the left edge, a sleeve
     mass(A.cw, [[px + pw - 140, py + ph + 10], [px + pw + 40, py + ph - 120], [px + pw + 140, py + ph + 120], [px + pw + 160, 1920], [px + pw - 200, 1920]], .1, 5, 13);
     draw(A.ink, mk([[px + pw - 200, 1920], [px + pw - 150, py + ph + 40], [px + pw - 60, py + ph - 20]], { w: 3, tone: TONE.nong, dry: .45, prof: 'tip', seed: 941 }), 1, 1);
-    draw(A.ink, mk([[px + pw + 150, py + ph + 160], [px + pw + 60, py + ph - 110], [px + pw - 20, py + ph - 210]], { w: 54, tone: .09, wet: 1, dry: 0, prof: 'cone', seed: 940 }), 1, 1);
+    draw(A.ink, mk([[px + pw + 150, py + ph + 160], [px + pw + 60, py + ph - 110], [px + pw - 20, py + ph - 210]], { w: 54, tone: .2, wet: 1, dry: 0, prof: 'cone', seed: 940 }), 1, 1);
     draw(A.ink, mk([[px + pw + 170, py + ph + 140], [px + pw + 84, py + ph - 116], [px + pw - 18, py + ph - 236]], { w: 3, tone: TONE.nong, dry: .45, prof: 'tip', seed: 942 }), 1, 1);
-    for (let k = 0; k < 3; k++) { const yy = py + ph * (.58 + k * .08); draw(A.ink, mk([[px - 46, yy + 10], [px - 10, yy], [px + 12, yy - 4]], { w: 30, tone: .09, wet: 1, dry: 0, prof: 'lens', seed: 950 + k }), 1, 1); draw(A.ink, mk([[px - 50, yy - 6], [px - 10, yy - 14], [px + 12, yy - 16]], { w: 2.2, tone: TONE.nong, dry: .45, prof: 'tip', seed: 960 + k }), 1, 1); }
+    for (let k = 0; k < 3; k++) { const yy = py + ph * (.58 + k * .08); draw(A.ink, mk([[px - 46, yy + 10], [px - 10, yy], [px + 12, yy - 4]], { w: 30, tone: .2, wet: 1, dry: 0, prof: 'lens', seed: 950 + k }), 1, 1); draw(A.ink, mk([[px - 50, yy - 6], [px - 10, yy - 14], [px + 12, yy - 16]], { w: 2.2, tone: TONE.nong, dry: .45, prof: 'tip', seed: 960 + k }), 1, 1); }
     // sleeve: a dark loaded block at the bottom right
     mass(A.cw, [[px + pw + 100, 1920], [1080, 1920], [1080, py + ph + 280], [px + pw + 150, py + ph + 200]], .5, 6, 14);
     const fl = t > HIT.shutter ? Math.max(0, 1 - (t - HIT.shutter) / .25) : 0;
@@ -290,5 +290,5 @@ export function frame(t, A, B, TMP) {
 // subtitle spots per line [x, y, size]
 export const SUBPOS = {
   v01: [150, 1620], v02: [150, 1620], v03: [150, 1180], v04: [120, 1700], v05: [150, 1780], v06: [120, 1010],
-  v07: [150, 1680], v08: [150, 1700], v09: [150, 1700], v10: [150, 1720], v11: [400, 1700], v12: [120, 1720], v13: [100, 1720], v14: [100, 1780],
+  v07: [150, 1680], v08: [150, 1700], v09: [150, 1700], v10: [150, 420], v11: [400, 1700], v12: [120, 1720], v13: [100, 1720], v14: [100, 1780],
 };

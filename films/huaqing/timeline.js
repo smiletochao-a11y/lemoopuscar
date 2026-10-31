@@ -1,25 +1,25 @@
 // Single source of timing. Times in seconds. Voice start times (at) are placed by hand to the picture; durations come from voice/dur.json once voiced.
 export const FPS = 30, DUR = 70;
 // shot starts
-export const SH = { s1: 0, s2: 4.5, s3: 11, s4: 18, s5: 22, s6: 31, s7: 33.5, s8: 37, s9: 43, s10: 48, s11: 53, s12: 57, s13: 65 };
+export const SH = { s1: 0, s2: 5.4, s3: 11, s4: 18, s5: 22, s6: 31, s7: 33.5, s8: 37, s9: 43, s10: 48, s11: 53, s12: 57, s13: 65 };
 // key hits
 export const HIT = {
-  hand: .6, stamp: 2.6,                 // the hand enters the water; the seal "246" lands
+  hand: .6, stamp: 4.3,                 // the hand enters the water; the seal "246" lands
   pin: 14.2,                            // she pins the petal into her bun
   rider: 22.6,                          // the rider appears on the mountain road
   hush: 31, drip: 32.2,                 // silence; one drip
   stroke: 33.5, hoof: 34.4,             // flying-white stroke; hard cut to the hoof
-  scroll: 37.2, fan: 38.6, stamp206: 40.4, look: 41.4, fall: 41.9,
+  scroll: 37.0, fan: 37.8, stamp206: 40.4, look: 41.4, fall: 41.9,
   erase: 43.4, west: 48, zero: 55.2,
   poem: 57.4, today: 65, shutter: 66.6, wide: 67.4, seal: 69.1,
 };
 // days left, as shown on the seal; 246 at 755-11-12 (arrival), 206 at 755-12-22 (the news), 0 at 756-07-15 (Mawei)
-export const DAYS = [[0, 246], [4.5, 240], [18, 226], [22, 214], [31, 207], [HIT.stamp206, 206], [48, 30], [53, 3], [HIT.zero, 0]];
+export const DAYS = [[0, 246], [5.4, 240], [18, 226], [22, 214], [31, 207], [HIT.stamp206, 206], [48, 30], [53, 3], [HIT.zero, 0]];
 export const LINES = [
   { id: 'v01', at: .3, zh: '755年冬天，华清池。', say: '七五五年冬天，华清池。', ctx: '用低沉、平静的语气，像在讲一个秘密' },
-  { id: 'v02', at: 2.2, zh: '她不知道，自己只剩两百多天。', say: '她不知道，自己只剩两百多天。', ctx: '平静，略带惋惜，“两百多天”稍慢' },
-  { id: 'v03', at: 5.2, zh: '那年冬天，唐玄宗照例带她来骊山泡温泉。', ctx: '舒缓、温和，像在描绘一幅画' },
-  { id: 'v04', at: 11.6, zh: '春寒赐浴华清池，温泉水滑洗凝脂。', ctx: '吟诵古诗，舒缓，两句之间稍作停顿', rate: -10 },
+  { id: 'v02', at: 3.0, zh: '她不知道，自己只剩两百多天。', say: '她不知道，自己只剩两百多天。', ctx: '平静，略带惋惜，“两百多天”稍慢' },
+  { id: 'v03', at: 5.8, zh: '那年冬天，唐玄宗照例带她来骊山泡温泉。', ctx: '舒缓、温和，像在描绘一幅画' },
+  { id: 'v04', at: 11.6, zh: '春寒赐浴华清池，温泉水滑洗凝脂。', ctx: '吟诵古诗，咬字清晰，“赐浴”二字放慢、读得清楚', rate: -10 },
   { id: 'v05', at: 18.2, zh: '有歌，有舞，有一年里最暖的水。', ctx: '温暖、轻快一点' },
   { id: 'v06', at: 23.4, zh: '她看不见的是，北边，一匹快马正在路上。', ctx: '压低声音，制造悬念，逐渐收紧' },
   { id: 'v07', at: 34.6, zh: '天宝十四载十一月，', ctx: '沉稳有力，一字一顿' },

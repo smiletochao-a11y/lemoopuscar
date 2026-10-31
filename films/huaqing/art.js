@@ -119,13 +119,13 @@ export function hand(L, x, y, s, o = {}) {
   S([[-300, -64], [-150, -50], [-62, -34]], LOAD(16, .5, [0, -1], { dry: .5 }));
   S([[-62, -36], [-50, -2], [-50, 28]], { w: 5, tone: TONE.nong, dry: .45, prof: 'even' });
   // forearm and back of the hand: clear wash; contour lines
-  S([[-52, -2], [-10, 0], [22, 2]], { w: 34, tone: .085, wet: 1, dry: 0, prof: 'even' });
+  S([[-52, -2], [-10, 0], [22, 2]], { w: 34, tone: .13, wet: 1, dry: 0, prof: 'even' });
   S([[-50, -17], [-10, -15], [20, -13]], { w: 1.8, tone: TONE.nong, dry: .45, prof: 'tip' });
   S([[-50, 16], [-10, 17], [20, 16]], { w: 1.6, tone: TONE.zhong, dry: .5, prof: 'tip' });
   // four fingers, slightly fanned, tips down; a thumb
   for (let k = 0; k < 4; k++) {
     const yy = -10 + k * 6.6, len = [34, 40, 37, 29][k], bend = 2 + k * .5;
-    S([[18, yy], [18 + len * .55, yy + bend], [18 + len, yy + bend * 2.2]], { w: 6.4, tone: .08, wet: 1, dry: 0, prof: 'lens' });
+    S([[18, yy], [18 + len * .55, yy + bend], [18 + len, yy + bend * 2.2]], { w: 6.4, tone: .13, wet: 1, dry: 0, prof: 'lens' });
     S([[18, yy - 3], [18 + len * .55, yy + bend - 3], [18 + len, yy + bend * 2.2 - 1.2]], { w: 1, tone: TONE.nong, dry: .45, prof: 'tip' }, .9);
   }
   S([[6, -14], [20, -22], [33, -22]], { w: 7, tone: .08, wet: 1, dry: 0, prof: 'lens' });
