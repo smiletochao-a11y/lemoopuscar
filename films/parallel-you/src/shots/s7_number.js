@@ -33,10 +33,10 @@ export function build(E) {
     S,
     update(tt) {
       lead.userData.reveal(eio(seg(tt, t('v13') - .1, t('v13') + .9)));
-      base.userData.reveal(eio(seg(tt, t('v14') + .6, t('v14') + 1.0)));
-      exp1.userData.reveal(eio(seg(tt, t('v14') + 1.6, t('v14') + 1.9)));
-      exp2.userData.reveal(eio(seg(tt, t('v14') + 2.0, t('v14') + 2.3)));
-      unit.userData.reveal(eio(seg(tt, t('v14') + 3.0, t('v14') + 3.3)));
+      base.userData.reveal(eio(seg(tt, t('v14') + .5, t('v14') + .9)));            // on 「1」 (whisper word times)
+      exp1.userData.reveal(eio(seg(tt, t('v14') + 1.78, t('v14') + 2.08)));        // 「10」
+      exp2.userData.reveal(eio(seg(tt, t('v14') + 2.32, t('v14') + 2.6)));         // 「29」
+      unit.userData.reveal(eio(seg(tt, t('v14') + 4.44, t('v14') + 4.74)));        // 「米」
       const zr = eo(seg(tt, tZ, tZ + .6)); zeros.scale.x = Math.max(.001, zr); zeros.visible = zr > .01;
       zeros.material.map.offset.x = Math.max(0, tt - tZ) * 1.6;
       const v = Math.round(106 * Math.pow(clamp((tt - tZ) / (tLY - tZ)), 2.4));

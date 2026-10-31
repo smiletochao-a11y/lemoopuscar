@@ -1,0 +1,19 @@
+另一个你 — third-party material and licences
+
+Narration
+- Doubao speech synthesis 2.0 (Volcengine / ByteDance), voice 解说小明 (zh_male_jieshuoxiaoming_uranus_bigtts), generated with the
+  owner's own API key. Usage of the audio is governed by the owner's Volcengine service agreement.
+- Speech check: faster-whisper (MIT).
+
+Music and sound
+- Original score and procedural foley. Samples (CC0): VS Chamber Orchestra: Community Edition and Versilian Community Sample
+  Library (Versilian Studios); music box by modal synthesis (core/audio/pluck.py).
+
+Fonts (SIL Open Font License 1.1)
+- Noto Serif SC (Google), Ma Shan Zheng (Ma Shan Zheng); subsets via Google Fonts.
+
+Engine
+- three.js r170 (MIT). Paper-cut lightbox engine adapted from this library's paper-lantern style.
+
+Science
+- Max Tegmark, "Parallel Universes", arXiv:astro-ph/0302131 (2003): the level-I argument and the ~10^(10^29) m estimate.

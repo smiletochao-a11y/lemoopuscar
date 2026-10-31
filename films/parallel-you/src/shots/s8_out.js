@@ -10,7 +10,7 @@ export function build(E) {
   const S = stage({ light: [-.075, .2, -.15], lightR: .22, lightCol: '#ffe2b0', key: 1.6, amb: .35, keyPos: [0, .5, .35], keyTarget: [0, -.02, -.08], fov: 30 });
   const H = buildHome(S);
   const q = strip(S, { s: '宇宙无限？', size: .018, x: -.075, y: .075, z: -.03 });
-  const sl = seal(S, { s: '未知', x: .085, y: .085, z: -.026, size: .05, t0: E.C.v17.at - E.T0 + .9 });
+  const sl = seal(S, { s: '未知', x: .085, y: .085, z: -.026, size: .05, t0: E.C.v17.at - E.T0 + 1.08 });   // on 「知道」
   const tOff = E.HIT.drop1 - E.T0, tDark = E.HIT.flood - E.T0 - .35;
   // layers sorted by depth, front first: they go dark in that order, one step every .45 s
   const order = [...S.layers].sort((a, b) => b.position.z - a.position.z);
