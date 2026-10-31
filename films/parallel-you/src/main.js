@@ -42,6 +42,7 @@ async function drawShot(i, t, target) {
   return s.grade(tl);
 }
 const sub = document.getElementById('sub');
+if (new URLSearchParams(location.search).get('nosub')) sub.style.display = 'none';
 function subtitle(t) {
   let txt = '', a = 0;
   LINES.forEach((L, i) => {

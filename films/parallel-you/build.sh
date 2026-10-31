@@ -20,4 +20,7 @@ sh "$LIB/core/render/mux.sh" out/video.mp4 out/mix.wav parallel-you.mp4 30 1
 "$PY" -I tools/cues.py .
 "$PY" "$LIB/core/render/srt.py" cues.json parallel-you.srt
 ffmpeg -v error -y -ss 1.5 -i parallel-you.mp4 -frames:v 1 -q:v 2 poster.jpg
+# covers (frame without subtitles + text)
+(cd "$LIB" && node core/render/still.mjs "$HERE" 0.35 --q 'ssaa=1.5&nosub=1' --size 1080x1920 --out "$HERE/cover" --prefix bg_)
+"$PY" -I tools/covers.py .
 echo "done: $HERE/parallel-you.mp4"
