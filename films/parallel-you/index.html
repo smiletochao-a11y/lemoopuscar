@@ -1,0 +1,16 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>另一个你</title>
+<style>
+@font-face { font-family: MaShanZheng; src: url(fonts/MaShanZheng.woff2); }
+@font-face { font-family: NotoSerifSC; src: url(fonts/NotoSerifSC-600.woff2); font-weight: 600; }
+@font-face { font-family: NotoSerifSC; src: url(fonts/NotoSerifSC-500.woff2); font-weight: 500; }
+html, body { margin: 0; background: #000; overflow: hidden; }
+#c { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+/* subtitles: one quiet serif line under the story, above the platforms' bottom UI (safe band ends at y ≈ 1440) */
+#sub { position: absolute; left: 60px; right: 60px; top: 1360px; text-align: center; white-space: pre-line; line-height: 1.45; font-family: NotoSerifSC; font-weight: 500; font-size: 54px; letter-spacing: .06em;
+  color: #fbf3e4; text-shadow: 0 0 3px rgba(0,0,0,.95), 0 2px 12px rgba(0,0,0,.8), 0 0 32px rgba(0,0,0,.5); opacity: 0; }
+</style>
+<script type="importmap">{ "imports": { "three": "/node_modules/three/build/three.module.js", "three/addons/": "/node_modules/three/examples/jsm/" } }</script>
+</head><body><canvas id="c"></canvas><div id="sub"></div>
+<script type="module" src="src/main.js"></script>
+</body></html>
