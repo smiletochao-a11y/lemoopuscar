@@ -44,6 +44,10 @@ export function build(E) {
   const back = ZS[NL - 1];
   S.add(sheet({ U: S.U, w: WIN.w * 1.3, h: WIN.h * 1.3, x: WIN.x, y: WIN.y, z: back - .004, trans: .6, shadow: false, draw: x => { x.fillStyle = '#b07a48'; x.fillRect(-.04, -.03, .08, .06); }, glowDraw: x => { x.fillStyle = '#fff'; x.fillRect(-.04, -.03, .08, .06); }, glow: 1.4, glowCol: LADDER.glow }));
   const fig = figure(S, { x: WIN.x + .002, y: WIN.y - .008, z: back - .002, s: .4 });
+  // small paper tags: one per block of universe; the deepest one is just "#N"
+  const tags = ZS.map((z, i) => i === NL - 1
+    ? strip(S, { s: '宇宙 #N', size: .0072, x: -.044, y: -.069, z: z + .002, reveal: 1 })
+    : (() => { const a = (15 + 60 * i) * Math.PI / 180; return strip(S, { s: '宇宙 #' + (i + 1), size: .008, x: Math.cos(a) * .085, y: .02 + Math.sin(a) * .085, z: z + .002, reveal: 1 }); })());
   const tagOurs = strip(S, { s: '我们这一块宇宙', size: .011, x: 0, y: .165, z: ZS[0] + .003 });
   const tagFar = strip(S, { s: '另一个你', size: .011, x: 0, y: -.127, z: back + .003, paper: GOLD });
   const tOther = E.HIT.other - E.T0;
@@ -53,6 +57,9 @@ export function build(E) {
       pose(fig, { bow: 1, thumb: Math.max(0, 1 - Math.abs(t - tOther - .6) / .3) });
       tagOurs.userData.reveal(eio(seg(t, .2, 1.0)) * (1 - seg(t, 2.6, 3.0)));
       tagFar.userData.reveal(eio(seg(t, tOther, tOther + .6)));
+      // each front tag folds away as the camera passes its block, so only "#N" remains at the end
+      const uu = eio(seg(t, .6, tOther));
+      tags.forEach((m, i) => { if (i < NL - 1) m.userData.reveal(1 - eio(seg(uu, .25 + i * .11, .33 + i * .11))); });
       // travel: from in front of the stack to just in front of the deepest frame, decelerating onto it
       const u = eio(seg(t, .6, tOther));
       const z = lerp(.66, back + .44, u);
