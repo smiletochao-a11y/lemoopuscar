@@ -343,3 +343,48 @@ export function tiny(L, x, y, s, o = {}) {
   blot(L.wet, x, y - 36 * s, 3.6 * s, .8 * am, 0, 1, sd);
   if (o.phone) { draw(L, mk([[x + 3 * s, y - 26 * s], [x + 6 * s, y - 36 * s]], { w: 1.6 * s, tone: .7, dry: .3, prof: 'even', seed: sd + 3 }), 1, am); draw(L, mk([[x + 5 * s, y - 40 * s], [x + 6.5 * s, y - 46 * s]], { w: 4 * s, tone: .85, dry: .2, prof: 'even', seed: sd + 4 }), 1, am); }
 }
+
+// ---------- a present-day visitor (standing, back or front): straight trousers, a T-shirt, cap or ponytail, backpack, a phone held up ----------
+// o: {cap, pack, phone (0 none, 1 held up), stick (selfie stick), flag (tour guide), front, am, seed}. 100 units = height
+export function tourist(L, x, y, s, o = {}) {
+  const am = o.am ?? 1, sd = o.seed ?? 1; let i = 0;
+  const T = p => [x + p[0] * s, y + p[1] * s, p[2] ?? 1];
+  const S = (pts, op, a = 1) => draw(L, mk(pts.map(T), { ...op, w: op.w * s, seed: sd * 100 + i++ }), 1, am * a);
+  const M = (poly, a) => mass(L.wet, poly.map(T), a * am, .4 * s, sd + i++);
+  // legs: two straight strokes (jeans), shoes
+  S([[-3.5, -46], [-4, -24], [-4.2, -2]], { w: 5.5, tone: .62, wet: .5, dry: .35, prof: 'even' });
+  S([[3.5, -46], [4, -24], [4.4, -2]], { w: 5.5, tone: .62, wet: .5, dry: .35, prof: 'even' });
+  S([[-6.5, -1], [-2, -.5]], { w: 3, tone: TONE.jiao, dry: .3, prof: 'even' }); S([[2, -.5], [6.8, -1]], { w: 3, tone: TONE.jiao, dry: .3, prof: 'even' });
+  // T-shirt: a boxy pale mass with straight sides
+  M([[-8.5, -74], [8.5, -74], [9, -46], [-9, -46]], .2);
+  S([[-8.6, -74], [-9, -46]], { w: 1.3, tone: TONE.nong, dry: .45, prof: 'even' }); S([[8.6, -74], [9, -46]], { w: 1.3, tone: TONE.nong, dry: .45, prof: 'even' });
+  if (o.pack && !o.front) { M([[-6.5, -72], [6.5, -72], [7, -52], [-7, -52]], .5); S([[-6.5, -72], [-7, -52], [7, -52], [6.5, -72]], { w: 1.2, tone: TONE.jiao, dry: .4, prof: 'even' }); }
+  // head, hair, cap
+  blot(L.wet, ...T([0, -82]).slice(0, 2), 5.6 * s, .62 * am, 0, 1.12, sd);
+  if (o.cap) { S([[-5.4, -85.5], [0, -88.5], [5.4, -85.5]], { w: 3, tone: TONE.jiao, dry: .3, prof: 'even' }); S([[2, -85], [10, -84]], { w: 1.8, tone: TONE.jiao, dry: .3, prof: 'nail' }); }
+  else S([[-2, -86], [-6, -82], [-6.5, -74]], { w: 2.2, tone: TONE.jiao, dry: .4, prof: 'tip' });                   // ponytail
+  // arms: down, or both raised holding a phone up in front of the face; the screen is blank paper in a dark frame
+  if (o.phone || o.stick) {
+    const ph = o.stick ? [14, -118] : [3, -96];
+    S([[-8, -72], [-6, -84], [ph[0] - 2, ph[1] + 4]], { w: 2.4, tone: .55, wet: .4, dry: .4, prof: 'even' });
+    S([[8, -72], [9, -84], [ph[0] + 2, ph[1] + 4]], { w: 2.4, tone: .55, wet: .4, dry: .4, prof: 'even' });
+    if (o.stick) S([[ph[0], ph[1] + 4], [ph[0] + 10, ph[1] - 20]], { w: .9, tone: TONE.jiao, dry: .3, prof: 'even' });
+    const q = o.stick ? [ph[0] + 10, ph[1] - 26] : ph;
+    S([[q[0] - 3.4, q[1] - 5], [q[0] + 3.4, q[1] - 5], [q[0] + 3.4, q[1] + 5], [q[0] - 3.4, q[1] + 5], [q[0] - 3.4, q[1] - 5]], { w: 1.3, tone: TONE.jiao, dry: .2, prof: 'even' });
+  } else {
+    S([[-8.5, -72], [-11, -58], [-11, -46]], { w: 2.4, tone: .55, wet: .4, dry: .4, prof: 'even' });
+    S([[8.5, -72], [11, -58], [11, -46]], { w: 2.4, tone: .55, wet: .4, dry: .4, prof: 'even' });
+  }
+  if (o.flag) { S([[11, -46], [12, -130]], { w: .9, tone: TONE.jiao, dry: .3, prof: 'even' }); M([[12, -130], [26, -125], [12, -120]], .45); }
+}
+
+// ---------- a phone held in a hand, seen over the shoulder: dark rounded frame, camera grid, shutter; the screen interior is drawn by the caller ----------
+export function phoneFrame(L, x, y, w, h, o = {}) {
+  const am = o.am ?? 1, r = w * .12;
+  const P = []; const corner = (cx, cy, a0) => { for (let k = 0; k <= 4; k++) { const a = a0 + k / 4 * Math.PI / 2; P.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r]); } };
+  corner(x + w - r, y + r, -Math.PI / 2); corner(x + w - r, y + h - r, 0); corner(x + r, y + h - r, Math.PI / 2); corner(x + r, y + r, Math.PI); P.push(P[0]);
+  draw(L, mk(P, { w: w * .07, tone: TONE.jiao, dry: .15, wet: .2, prof: 'even', rough: .05, nb: 30, seed: 901 }), 1, am);
+  for (let k = 1; k < 3; k++) { draw(L, mk([[x + w * k / 3, y + h * .1], [x + w * k / 3, y + h * .84]], { w: 1.4, tone: .35, dry: .5, prof: 'even', seed: 910 + k }), 1, am * .7); draw(L, mk([[x + w * .08, y + h * (.1 + .74 * k / 3)], [x + w * .92, y + h * (.1 + .74 * k / 3)]], { w: 1.4, tone: .35, dry: .5, prof: 'even', seed: 920 + k }), 1, am * .7); }
+  const sx = x + w / 2, sy = y + h * .92, sr = w * .07;
+  draw(L, mk(Array.from({ length: 21 }, (_, k) => [sx + Math.cos(k / 20 * Math.PI * 2) * sr, sy + Math.sin(k / 20 * Math.PI * 2) * sr]), { w: 5, tone: TONE.nong, dry: .2, prof: 'even', seed: 930 }), 1, am);
+}

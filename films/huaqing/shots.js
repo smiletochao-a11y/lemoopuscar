@@ -1,7 +1,7 @@
 // The 13 shots. Each shot draws into a layer set (screen space 1080×1920) and returns compositor parameters.
 import { mk, draw, mass, blot, TONE } from './ink.js';
 import { mountainLayer, ridgeFn, cun, pine, ripple } from './land.js';
-import { steam, hall, lantern, lady, hand, dancer, musician, horse, hooves, petal, daySeal, titleSeal, writeCols, writeFan, rain, tiny, VERM } from './art.js';
+import { steam, hall, lantern, lady, hand, dancer, musician, horse, hooves, petal, daySeal, titleSeal, writeCols, writeFan, rain, tiny, tourist, phoneFrame, VERM } from './art.js';
 import { SH, HIT, POEM, daysAt, DUR } from './timeline.js';
 import { clamp, lerp, seg, ss, eio, eo, mulberry } from '/core/lib.js';
 
@@ -224,23 +224,53 @@ S.s12 = (A, t, TMP) => {
   return { paper: [0, 0, 1], bleed: 6, rim: .8 };
 };
 // S13 · today: the crabapple-shaped pool, empty; tourists with phones; title and seal
-S.s13 = (A, t, TMP) => {
-  const u = eio(seg(t, SH.s13, DUR)), sc = lerp(1.08, 1, u);
-  A.xf(sc, (1 - sc) * 540, (1 - sc) * 1000);
-  // pool rim: a five-lobed crabapple outline, two tiers, in broken dry strokes (oblique view)
-  const cx = 540, cy = 1050, R0 = 330;
-  for (const [rr, w, tone, sd] of [[1, 9, .8, 460], [.8, 6, .55, 470]]) {
+// the crabapple-shaped pool seen obliquely (used inside the phone and in the wide)
+function haitang(A, cx, cy, R0, am = 1, sd = 460) {
+  for (const [rr, w, tone, k0] of [[1, 9, .8, 0], [.8, 6, .55, 10]]) {
     const pts = []; for (let i = 0; i <= 60; i++) { const a = i / 60 * Math.PI * 2, lobe = 1 + .14 * Math.cos(a * 5); pts.push([cx + Math.cos(a) * R0 * rr * lobe, cy + Math.sin(a) * R0 * .55 * rr * lobe]); }
-    for (let k = 0; k < 5; k++) draw(A.ink, mk(pts.slice(k * 12, k * 12 + 13), { w, tone, dry: .55, wet: .3, prof: 'brush', seed: sd + k }), 1, 1);
+    for (let k = 0; k < 5; k++) draw(A.ink, mk(pts.slice(k * 12, k * 12 + 13), { w: w * R0 / 330, tone, dry: .55, wet: .3, prof: 'brush', seed: sd + k0 + k }), 1, am);
   }
-  mass(A.cw, Array.from({ length: 40 }, (_, i) => { const a = i / 40 * Math.PI * 2, lobe = 1 + .14 * Math.cos(a * 5); return [cx + Math.cos(a) * R0 * .8 * lobe, cy + Math.sin(a) * R0 * .44 * lobe]; }), .12, 4, 11);
-  petal(A.ink, cx + 20, cy + 10, 1.6, .4 + Math.sin(t) * .1, 1, 11);
-  // tourists around the rim, holding phones up
-  const R = mulberry(31);
-  for (let i = 0; i < 9; i++) { const a = Math.PI * (.15 + i * .1) + (i > 4 ? Math.PI * .45 : 0), x = cx + Math.cos(a) * R0 * 1.25, y = cy + Math.sin(a) * R0 * .75 + 60; tiny(A.ink, x, y, 3.6 + R() * .8, { phone: i % 2 === 0, seed: 40 + i, am: .8 }); }
-  // title: 华清池, vertical, upper right, and the seal
-  writeCols(A, TMP, ['华清池'], 900, 260, 150, seg(t, SH.s13 + .8, SH.s13 + 3), {});
-  if (t > HIT.seal) titleSeal(A.cc, 840, 760, 120, clamp((t - HIT.seal) / .15));
+  mass(A.cw, Array.from({ length: 40 }, (_, i) => { const a = i / 40 * Math.PI * 2, lobe = 1 + .14 * Math.cos(a * 5); return [cx + Math.cos(a) * R0 * .8 * lobe, cy + Math.sin(a) * R0 * .44 * lobe]; }), .12 * am, 4, 11);
+}
+// S13 · today. a) over a visitor's shoulder: a phone frames the empty crabapple pool with the red petal; the shutter.
+//              b) pull back: the shelter railing, visitors in caps and backpacks, phones held up, a guide's flag; title and seal.
+S.s13 = (A, t, TMP) => {
+  A.xf(1, 0, 0);
+  if (t < HIT.wide) {
+    haitang(A, 540, 1150, 520, .35);                                   // the real pool behind, out of focus (pale)
+    const u = eio(seg(t, SH.s13, HIT.wide)), px = 250, py = lerp(380, 340, u), pw = 580, ph = 1080;
+    // the screen shows its own picture: clear what lies behind it
+    for (const c of [A.cw, A.cd]) { c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(px + 10, py + 10, pw - 20, ph - 20); c.restore(); }
+    haitang(A, px + pw / 2, py + ph * .5, 230, 1);                     // the pool on the screen, sharp
+    petal(A.ink, px + pw / 2 + 10, py + ph * .5 + 4, 1.3, .4, 1, 11);
+    phoneFrame(A.ink, px, py, pw, ph);
+    // the hand holding it from below: palm and thumb at the lower right corner, fingertips on the left edge, a sleeve
+    mass(A.cw, [[px + pw - 140, py + ph + 10], [px + pw + 40, py + ph - 120], [px + pw + 140, py + ph + 120], [px + pw + 160, 1920], [px + pw - 200, 1920]], .1, 5, 13);
+    draw(A.ink, mk([[px + pw - 200, 1920], [px + pw - 150, py + ph + 40], [px + pw - 60, py + ph - 20]], { w: 3, tone: TONE.nong, dry: .45, prof: 'tip', seed: 941 }), 1, 1);
+    draw(A.ink, mk([[px + pw + 150, py + ph + 160], [px + pw + 60, py + ph - 110], [px + pw - 20, py + ph - 210]], { w: 54, tone: .09, wet: 1, dry: 0, prof: 'cone', seed: 940 }), 1, 1);
+    draw(A.ink, mk([[px + pw + 170, py + ph + 140], [px + pw + 84, py + ph - 116], [px + pw - 18, py + ph - 236]], { w: 3, tone: TONE.nong, dry: .45, prof: 'tip', seed: 942 }), 1, 1);
+    for (let k = 0; k < 3; k++) { const yy = py + ph * (.58 + k * .08); draw(A.ink, mk([[px - 46, yy + 10], [px - 10, yy], [px + 12, yy - 4]], { w: 30, tone: .09, wet: 1, dry: 0, prof: 'lens', seed: 950 + k }), 1, 1); draw(A.ink, mk([[px - 50, yy - 6], [px - 10, yy - 14], [px + 12, yy - 16]], { w: 2.2, tone: TONE.nong, dry: .45, prof: 'tip', seed: 960 + k }), 1, 1); }
+    // sleeve: a dark loaded block at the bottom right
+    mass(A.cw, [[px + pw + 100, 1920], [1080, 1920], [1080, py + ph + 280], [px + pw + 150, py + ph + 200]], .5, 6, 14);
+    const fl = t > HIT.shutter ? Math.max(0, 1 - (t - HIT.shutter) / .25) : 0;
+    return { paper: [0, 0, 1], bleed: 6, rim: .8, flash: fl * .85 };
+  }
+  const u = eio(seg(t, HIT.wide, DUR)), sc = lerp(1.15, 1, u);
+  A.xf(sc, (1 - sc) * 540, (1 - sc) * 1100);
+  haitang(A, 540, 1120, 300, 1);
+  petal(A.ink, 560, 1130, 1.4, .4 + Math.sin(t) * .1, 1, 11);
+  // the railing around the pool: posts and a top rail, an ellipse
+  const rail = []; for (let i = 0; i <= 40; i++) { const a = i / 40 * Math.PI * 2; rail.push([540 + Math.cos(a) * 420, 1130 + Math.sin(a) * 250]); }
+  for (let k = 0; k < 4; k++) draw(A.ink, mk(rail.slice(k * 10, k * 10 + 11).map(p => [p[0], p[1] - 46]), { w: 4, tone: .7, dry: .45, prof: 'even', seed: 980 + k }), 1, 1);
+  for (let i = 0; i < 40; i += 2) draw(A.ink, mk([[rail[i][0], rail[i][1] - 46], [rail[i][0], rail[i][1] + 4]], { w: 3, tone: .6, dry: .4, prof: 'even', seed: 990 + i }), 1, .9);
+  // visitors: behind the rail (small, front) and in front of it (larger, backs to us)
+  const far = [[230, 870, { cap: 1, phone: 1 }], [380, 850, { phone: 1 }], [700, 850, { stick: 1 }], [860, 880, { flag: 1, cap: 1 }]];
+  far.forEach(([x, y, o], i) => tourist(A.ink, x, y, 1.5, { ...o, front: 1, seed: 60 + i, am: .75 }));
+  const near = [[150, 1560, { pack: 1, phone: 1, cap: 1 }], [470, 1600, { phone: 1 }], [800, 1580, { pack: 1, phone: 1 }], [980, 1640, { cap: 1 }]];
+  near.forEach(([x, y, o], i) => tourist(A.ink, x, y, 3.2, { ...o, seed: 70 + i }));
+  A.xf(1, 0, 0);
+  writeCols(A, TMP, ['华清池'], 960, 210, 140, seg(t, HIT.wide + .3, HIT.wide + 1.8), {});
+  if (t > HIT.seal) titleSeal(A.cc, 900, 690, 110, clamp((t - HIT.seal) / .15));
   return { paper: [0, 0, 1], bleed: 6, rim: .8 };
 };
 
@@ -260,5 +290,5 @@ export function frame(t, A, B, TMP) {
 // subtitle spots per line [x, y, size]
 export const SUBPOS = {
   v01: [150, 1620], v02: [150, 1620], v03: [150, 1180], v04: [120, 1700], v05: [150, 1780], v06: [120, 1010],
-  v07: [150, 1680], v08: [150, 1700], v09: [150, 1700], v10: [150, 1720], v11: [400, 1700], v12: [120, 1720], v13: [100, 1720], v14: [100, 1560],
+  v07: [150, 1680], v08: [150, 1700], v09: [150, 1700], v10: [150, 1720], v11: [400, 1700], v12: [120, 1720], v13: [100, 1720], v14: [100, 1780],
 };

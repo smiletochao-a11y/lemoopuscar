@@ -11,7 +11,7 @@ export const HIT = {
   stroke: 33.5, hoof: 34.4,             // flying-white stroke; hard cut to the hoof
   scroll: 37.2, fan: 38.6, stamp206: 40.4, look: 41.4, fall: 41.9,
   erase: 43.4, west: 48, zero: 55.2,
-  poem: 57.4, today: 65, seal: 68.6,
+  poem: 57.4, today: 65, shutter: 66.6, wide: 67.4, seal: 69.1,
 };
 // days left, as shown on the seal; 246 at 755-11-12 (arrival), 206 at 755-12-22 (the news), 0 at 756-07-15 (Mawei)
 export const DAYS = [[0, 246], [4.5, 240], [18, 226], [22, 214], [31, 207], [HIT.stamp206, 206], [48, 30], [53, 3], [HIT.zero, 0]];
