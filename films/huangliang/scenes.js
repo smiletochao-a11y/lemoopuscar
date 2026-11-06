@@ -425,7 +425,7 @@ SH.react = S => {      // he stares, then a wry smile: he understands
 SH.lvsmile = S => { bgPan(S, 'innInt', -60, 0, 1.08); bust(S.g, 'lv', 'dusk', 520, 880, 2.8, { expr: 'smileopen', E: { open: .4, lid: .4 }, light: [1, -.6] }); return {}; };
 SH.dawn = S => {
   const { t, lt } = S; bg(S, 'dawn');
-  const walk = seg(t, HIT.walk, 73);
+  const walk = seg(t, HIT.walk, 67);
   const bow = t > HIT.bow && t < HIT.walk;
   figure(S.g, 'lv', 'dawn', 220, 1460, .3, { view: 'q' });
   figure(S.g, 'lu', 'dawn', lerp(560, 600, walk), lerp(1520, 1320, walk), lerp(.34, .16, walk), { pose: bow ? 'bow' : walk > 0 ? 'walk' : 'down', ph: t * 1.6, view: walk > 0 ? 'side' : 'q', flip: walk > 0 ? -1 : -1 });

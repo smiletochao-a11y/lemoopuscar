@@ -57,15 +57,15 @@ for f in HIT['flashes']: place(foley, whoosh(.25, 1), f - .05, .7)
 place(foley, crackle(10, .6), 5.6, .5)                    # the inn: the stove
 place(foley, whoosh(1.2, 1), 15.8, .8); place(foley, whoosh(1.4, 1.2), 17.4, .9)
 for k in range(18): place(foley, pop(.5 + .5 * rng.random()), 19.1 + k * .11 + rng.random() * .05, .6, rng.uniform(-.7, .7))   # wedding firecrackers
-for t in (23.7, 24.8, 26.0): place(foley, whoosh(.3, .8), t - .05, .6)
-for k in range(14): place(foley, step(.8), 31.5 + k * .27, .7, .2 * (-1) ** k)          # running back
+for t in (HIT['robeQ'], HIT['robeL'], HIT['robeF']): place(foley, whoosh(.3, .8), t - .05, .6)
+for k in range(14): place(foley, step(.8), 30.3 + k * .27, .7, .2 * (-1) ** k)          # running back
 place(foley, draw_sword(1), HIT['draw'] - .1, 1.0)
-place(foley, drop(.8), 41.6, .8)
+place(foley, drop(.8), 40.4, .8)
 place(foley, click(1), HIT['freeze'], .9)                 # the tape stops
-place(foley, hum(1.0, 1), HIT['blue'], .5)
-place(foley, static(1.0, 1), HIT['static'], .7)
-place(foley, click(1), HIT['rew'], 1.0); place(foley, click(1), 59.95, 1.0)
-place(foley, crackle(13, .6), 60.0, .5)
+place(foley, hum(.8, 1), HIT['blue'], .5)
+place(foley, static(.4, 1), HIT['static'], .7)
+place(foley, click(1), HIT['rew'], 1.0); place(foley, click(1), HIT['rewEnd'] - .05, 1.0)
+place(foley, crackle(12, .6), HIT['rewEnd'], .5)
 place(foley, clank(1, 330), HIT['lid'], .9); place(foley, whoosh(.6, .8), HIT['lid'], .5)
 for k in range(8): place(foley, step(.6), HIT['walk'] + k * .45, .5)
 

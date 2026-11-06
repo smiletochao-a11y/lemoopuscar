@@ -8,7 +8,7 @@ SR = 48000
 BPM = 112
 BEAT = 60 / BPM
 BAR = 4 * BEAT
-DUR = 73.0
+DUR = 67.0
 N = int(round(DUR * SR))
 rng = np.random.default_rng(1987)
 
@@ -16,8 +16,8 @@ rng = np.random.default_rng(1987)
 def T(bar, beat=0.0): return (bar * 4 + beat) * BEAT
 
 
-CUT0, CUT1 = 35.0, 35.6               # full silence before the prison
-LOFI0, LOFI1 = 27.4, 31.4             # cassette quality under the slander
+CUT0, CUT1 = 33.8, 34.4               # full silence before the prison
+LOFI0, LOFI1 = 26.2, 30.2             # cassette quality under the slander
 KEY_UP = 22                           # up a semitone from this bar on
 
 

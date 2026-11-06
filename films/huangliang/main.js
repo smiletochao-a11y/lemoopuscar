@@ -29,13 +29,13 @@ function frameAt(t, extra = {}) {
 }
 function render(t) {
   let over;
-  if (t >= HIT.rew && t < 60) {          // rewind: the life's key moments fly backwards, tracking noise, ◀◀
-    const ICON = [48.6, 43.6, 40.0, 38.6, 28.2, 25.6, 22.0, 20.0, 13.4, 9.5];
-    const u = (t - HIT.rew) / 5, k = Math.min(ICON.length - 1, Math.floor(Math.pow(u, .75) * ICON.length));
+  if (t >= HIT.rew && t < HIT.rewEnd) {          // rewind: the life's key moments fly backwards, tracking noise, ◀◀
+    const ICON = [47.0, 42.4, 38.8, 37.4, 27.0, 24.6, 22.0, 20.0, 13.4, 9.5];
+    const u = (t - HIT.rew) / (HIT.rewEnd - HIT.rew), k = Math.min(ICON.length - 1, Math.floor(Math.pow(u, .75) * ICON.length));
     over = frameAt(ICON[k] + (1 - (Math.pow(u, .75) * ICON.length - k)) * .25);
     SH.end.osd(g, '◀◀ 倒带', null);
     over = { ...over, track: .45 + .3 * Math.sin(t * 13), noiseA: .05 };
-    if (t > 59.6) { const w = (t - 59.6) / .4; g.fillStyle = `rgba(255,248,232,${w})`; g.fillRect(0, 0, W, H); }
+    if (t > HIT.rewEnd - .4) { const w = (t - HIT.rewEnd + .4) / .4; g.fillStyle = `rgba(255,248,232,${w})`; g.fillRect(0, 0, W, H); }
   } else over = frameAt(t);
   const fr = Math.round(t * 30);
   if (qs.get('nosub')) ov.clearRect(0, 0, W, H); else subs(t);

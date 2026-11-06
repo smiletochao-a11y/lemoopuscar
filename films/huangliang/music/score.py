@@ -23,7 +23,13 @@ from _kit import *
 from _kit import KICKS, BUS, SEND, STEMS
 from scipy.signal import resample_poly
 
-def at(bus, sig, t, gain=1.0, pan=0.0, send=None): place(bus, sig, t + hum(2), gain, pan, send)
+KN = [(0, 0), (23.4, 23.4), (27.4, 26.2), (47.6, 46.4), (50.2, 48.2), (52.4, 49.0), (53.0, 49.2), (54.0, 50.0), (55.0, 50.4), (60.0, 55.0), (66.4, 61.4), (73.0, 67.0)]
+def Wp(t):   # old-cut time → new-cut time (piecewise linear)
+    for (a, x), (b, y) in zip(KN, KN[1:]):
+        if t <= b: return x + (y - x) * (t - a) / (b - a)
+    return t - 6
+def at(bus, sig, t, gain=1.0, pan=0.0, send=None): place(bus, sig, Wp(t) + hum(2), gain, pan, send)
+def raw(bus, sig, t, gain=1.0, pan=0.0, send=None): place(bus, sig, t + hum(2), gain, pan, send)
 D4 = 62
 SNARES = [snare(1, .26) for _ in range(3)]
 def chordm(root, q, center=62): return voicing(root, q, center)
@@ -34,6 +40,7 @@ ROYAL_UP = [('Ab', 'M9'), ('Bb', '13'), ('G', 'm7'), ('C', 'm9')]
 HOOK = [(0, 1, 74), (1, .5, 76), (1.5, .5, 78), (2, 1, 81), (3, 1, 78), (4, .5, 76), (4.5, .5, 74), (5, 1, 71), (6, 2, 74)]   # D E F# A F# E D B D
 
 def groove(t0, t1, prog, dyn=1.0, up=0):
+    t0, t1 = Wp(t0), Wp(t1); at = raw
     b = 0; t = t0
     while t < t1 - 1e-6:
         r, q = prog[b % len(prog)]
@@ -55,6 +62,7 @@ def groove(t0, t1, prog, dyn=1.0, up=0):
         b += 1; t += BAR
 
 def pads(t0, t1, prog, dyn=.6, up=0, center=60):
+    t0, t1 = Wp(t0), Wp(t1); at = raw
     b = 0; t = t0
     while t < t1 - 1e-6:
         r, q = prog[b % len(prog)]; d = min(BAR, t1 - t)
@@ -62,6 +70,7 @@ def pads(t0, t1, prog, dyn=.6, up=0, center=60):
         b += 1; t += BAR
 
 def hook(t0, inst='brass', up=0, gain=1.0, oct=0):
+    t0 = Wp(t0); at = raw
     for bt, d, m in HOOK:
         if inst == 'brass': at('brass', brass(m + up + oct, d * BEAT * .95, .8, 1.0), t0 + bt * BEAT, gain)
         elif inst == 'bell': at('lead', bell(m + up + oct, 2.0, .45), t0 + bt * BEAT, gain)
@@ -72,6 +81,7 @@ def stab(t, prog_chord, up=0, gain=1.0):
     for m in chordm(r, q, 70): at('brass', brass(m + up, .32, .9, 1.2, .006), t, gain)
 
 def toms(t0, t1, n):
+    t0, t1 = Wp(t0), Wp(t1); at = raw
     for i in range(n):
         u = i / max(1, n - 1); tt = t0 + (t1 - t0) * (u ** .8)
         at('drums', tom(180 - 90 * u, .5 + .5 * u), tt, pan=-.4 + .8 * u)
@@ -95,19 +105,19 @@ def build():
     groove(19.0, 27.4, ROYAL, 1.0)
     pads(19.0, 27.4, ROYAL, .45)
     stab(22.2, ('A', '13'), 0, 1.1); at('fx', bell(93, 2.4, .5), 22.25)
-    for t in (23.7, 24.8, 26.0): stab(t, ('G', 'M9'), 0, 1.0); at('drums', crash(.6), t)
+    for t in (23.6, 24.4, 25.2): raw('brass', brass(74, .3, .9, 1.2, .006), t); [raw('brass', brass(m, .32, .9, 1.2, .006), t) for m in chordm('G', 'M9', 70)]; raw('drums', crash(.6), t)
     hook(23.7, 'keys', 0, .8, 12)
     # the slander (cassette quality from LOFI0..LOFI1): minor pads + a heartbeat
     pads(27.4, 31.4, [('B', 'm9'), ('F#', 'm7')], .6, 0, 56)
-    for k in range(8): at('drums', kick(.7), 27.4 + k * BEAT); at('drums', kick(.4), 27.4 + k * BEAT + .18)
+    for k in range(8): raw('drums', kick(.7), Wp(27.4) + k * BEAT); raw('drums', kick(.4), Wp(27.4) + k * BEAT + .18)
     at('fx', boom(1.0), 29.0)
     # the climb back
     groove(31.4, 35.0, ROYAL, .9)
-    for i in range(16): at('drums', SNARES[i % 3] * (.3 + .04 * i), 33.3 + i * (35.0 - 33.3) / 16)
+    for i in range(16): raw('drums', SNARES[i % 3] * (.3 + .04 * i), Wp(33.3) + i * (Wp(35.0) - Wp(33.3)) / 16)
     at('fx', riser(1.7, .7), 33.3)
     # prison
     pads(35.6, 42.2, [('B', 'm9'), ('G', 'M9'), ('E', 'm9')], .5, 0, 54)
-    for k in range(int((42.2 - 35.6) / BEAT)): at('bass', bass(bass_root('B'), BEAT * .6, .6, 'T'), 35.6 + k * BEAT)
+    for k in range(int((Wp(42.2) - Wp(35.6)) / BEAT)): raw('bass', bass(bass_root('B'), BEAT * .6, .6, 'T'), Wp(35.6) + k * BEAT)
     at('fx', boom(1.1), 38.9); at('drums', crash(1.0), 38.9); stab(38.9, ('B', 'm9'), 0, 1.1)
     pads(40.8, 42.2, [('G', 'M9')], .9, 0, 66)
     # the peak: a semitone up, the hook on brass
@@ -117,11 +127,11 @@ def build():
     for t in (45.4, 45.4 + BEAT, 45.4 + 2 * BEAT): at('fx', bell(98, 1.5, .4), t)
     # old age: groove drops, pad and electric piano only
     for i, (r, q) in enumerate(ROYAL_UP[:2]):
-        for m in chordm(r, q, 64): at('keys', epiano(m, BAR, .35), 47.6 + i * BAR)
+        for m in chordm(r, q, 64): raw('keys', epiano(m, BAR, .35), Wp(47.6) + i * BAR)
     # back at the inn
     for i, (r, q) in enumerate([('B', 'm9'), ('G', 'M9'), ('D', 'M9')]):
-        t = 60.0 + i * BAR
-        for k, m in enumerate(chordm(r, q, 64) * 2): at('keys', epiano(m, BEAT * 1.5, .3), t + k * BEAT * .5, pan=-.2 + .1 * k)
+        t = Wp(60.0) + i * BAR
+        for k, m in enumerate(chordm(r, q, 64) * 2): raw('keys', epiano(m, BEAT * 1.5, .3), t + k * BEAT * .5, pan=-.2 + .1 * k)
     pads(60.0, 66.4, [('B', 'm9'), ('G', 'M9'), ('D', 'M9')], .4)
     at('lead', bell(86, 2.4, .45), 64.1)
     # outro: the hook once more, gently, ending on Asus (unresolved)
@@ -136,7 +146,7 @@ def tape_stop(st, t0, t1):
     speed = np.linspace(1, 0.05, n) ** 1.5; pos = a + np.cumsum(speed)
     out = st.copy()
     for c in range(2): out[a:b, c] = np.interp(pos, np.arange(len(st)), st[:, c])
-    out[b:int(55.0 * SR)] = 0
+    out[b:int(50.4 * SR)] = 0
     return out
 
 def rewind(st, src0, src1, t0, t1):
@@ -169,8 +179,8 @@ def main():
     for k in STEMS: x = BUS[k]; x[c0:c1] = 0; BUS[k] = apply_lofi(x)
     BUS['drums'] *= .85
     mix = sum(BUS.values()); mix = hp(mix, 28, 2)
-    mix = tape_stop(mix, 51.6, 52.6)
-    mix = rewind(mix, 42.2, 50.2, 55.0, 59.9)
+    mix = tape_stop(mix, 48.4, 49.0)
+    mix = rewind(mix, 41.0, 48.2, 50.4, 54.9)
     pre = 1.0 / np.abs(mix).max(); mix *= pre
     det = uniform_filter1d(np.abs(mix).max(1), int(.005 * SR)); lv = env_follow(det, .012, .2); thr = .45; g = np.ones(N)
     over = lv > thr; g[over] = (thr * (lv[over] / thr) ** (1 / 2.0)) / lv[over]
@@ -178,7 +188,7 @@ def main():
     mix = np.tanh(mix * 1.2) / np.tanh(1.2) * .89
     fade = np.ones(N); fe = int(1.2 * SR); fade[-fe:] = np.linspace(1, 0, fe) ** 2; mix *= fade[:, None]
     sf.write(os.path.join(HERE, 'score.wav'), mix.astype(np.float32), SR, subtype='FLOAT')
-    json.dump(dict(bpm=BPM, dur=DUR, key='D major, peak in E-flat', silence=[CUT0, CUT1], lofi=[LOFI0, LOFI1], tape_stop=[51.6, 52.6], rewind=[55.0, 59.9]), open(os.path.join(HERE, 'score.json'), 'w'), indent=1)
+    json.dump(dict(bpm=BPM, dur=DUR, key='D major, peak in E-flat', silence=[CUT0, CUT1], lofi=[LOFI0, LOFI1], tape_stop=[48.4, 49.0], rewind=[50.4, 54.9]), open(os.path.join(HERE, 'score.json'), 'w'), indent=1)
     print('done', round(time.time() - t0, 1), 's  peak', float(np.abs(mix).max()))
 
 if __name__ == '__main__':
