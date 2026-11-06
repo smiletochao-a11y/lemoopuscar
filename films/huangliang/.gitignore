@@ -6,3 +6,4 @@ voice/.cache/
 storyboard/.font.ttf
 music/stems/
 music/score.wav
+music/__pycache__/
