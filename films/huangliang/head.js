@@ -209,7 +209,12 @@ const HAIR = {
 };
 
 export function head80(g, P, o = {}) {
-  const view = o.view || 'q', V = VIEWS[view], Hh = HAIR[view];
+  const view = o.view || 'q', Hh = HAIR[view];
+  let V = VIEWS[view];
+  if (o.male) {     // a man's head: broader jaw and chin, narrower eyes, brows set lower
+    V = { ...V, face: V.face.map(([x, y, k]) => [y > 40 ? x * 1.12 + (view === 'q' ? -2 : 0) : x, y > 90 ? y - 3 : y, k]), chinShadow: V.chinShadow.map(([x, y]) => [y > 40 ? x * 1.12 : x, y]),
+      eyes: V.eyes.map(e => ({ ...e, h: e.h * .74, y: e.y + 2 })), brows: V.brows.map(b => [b[0], b[1] + 6, b[2], b[3] + 6]), mouth: V.mouth ? { ...V.mouth, w: V.mouth.w * 1.2 } : null, blush: [] };
+  }
   const E = { ...EXPR[o.expr || 'neutral'], ...(o.E || {}) };
   if (o.reflect) E.reflect = o.reflect;
   if (o.look) E.look = o.look;
@@ -340,12 +345,14 @@ function headwear(g, P, view, o, ph, SO) {
   if (o.hat === 'futou' || o.hat === 'official') {    // black gauze cap with two tails (幞头)
     const H = { f: '#2a2630', s: '#16131c', h: '#5a5468', l: '#08060c' };
     cel(g, [[-86 + hx, -2], [-92 + hx, -50], [-70 + hx, -96], [-20 + hx, -112], [30 + hx, -106], [66 + hx, -84], [84 + hx, -42], [80 + hx, -6], [40 + hx, -26], [0 + hx, -34], [-50 + hx, -24]], { f: H.f, s: H.s, so: SO(8), h: H.h, ho: [6, 6], l: H.l, lw: LP });
-    cel(g, [[-40 + hx, -112], [-30 + hx, -150], [10 + hx, -160], [42 + hx, -140], [40 + hx, -104]], { f: H.f, s: H.s, so: SO(6), l: H.l, lw: LP });   // the raised crown of the cap
+    cel(g, [[-50 + hx, -100, 1], [-52 + hx, -132], [-36 + hx, -156], [-8 + hx, -150], [0 + hx, -142], [10 + hx, -152], [38 + hx, -158], [54 + hx, -134], [52 + hx, -98, 1]], { f: H.f, s: H.s, so: SO(6), h: H.h, ho: [6, 6], l: H.l, lw: LP });   // the cap's crown (巾子): two rounded lobes
+    line(g, [[0 + hx, -142], [2 + hx, -108]], H.l, 2.5);
     if (o.hat === 'official') { cel(g, [[-90 + hx, -24], [86 + hx, -30], [86 + hx, -14], [-90 + hx, -8]], { f: P.gold.f, s: P.gold.s, l: P.gold.l, lw: LW }); }
     for (let k = 0; k < 2; k++) { const sp = flutter(-72 + hx, -40 + k * 14, Math.PI * .72 + k * .12, 170, 10, 10, 1, ph * TAU + k * 1.3); cel(g, ribbon(sp, u => 20 - 8 * u), { f: H.f, s: H.s, so: SO(4), l: H.l, lw: LW }); }
   } else if (o.hat === 'crown') {       // the chief minister's gold crown with a long pin
-    cel(g, [[-60 + hx, -40], [-66 + hx, -110], [-30 + hx, -150], [30 + hx, -150], [64 + hx, -110], [58 + hx, -40]], { f: P.gold.f, s: P.gold.s, so: SO(8), h: P.gold.h, ho: [6, 8], l: P.gold.l, lw: LP,
-      clipFn: gg => { gg.strokeStyle = P.gold.s; gg.lineWidth = 4; for (let k = 0; k < 4; k++) { gg.beginPath(); gg.moveTo(-40 + k * 26 + hx, -44); gg.lineTo(-30 + k * 20 + hx, -148); gg.stroke(); } } });
+    for (const x of [-36, 0, 36]) cel(g, [[x - 10 + hx, -180], [x + hx, -224], [x + 10 + hx, -180]], { f: P.gold.h, s: P.gold.f, l: P.gold.l, lw: LW });
+    cel(g, [[-60 + hx, -40], [-70 + hx, -130], [-40 + hx, -186], [40 + hx, -186], [68 + hx, -130], [58 + hx, -40]], { f: P.gold.f, s: P.gold.s, so: SO(8), h: P.gold.h, ho: [6, 8], l: P.gold.l, lw: LP,
+      clipFn: gg => { gg.strokeStyle = P.gold.s; gg.lineWidth = 4; for (let k = 0; k < 4; k++) { gg.beginPath(); gg.moveTo(-40 + k * 26 + hx, -44); gg.lineTo(-30 + k * 20 + hx, -184); gg.stroke(); } } });
     cel(g, [[-150 + hx, -96], [150 + hx, -110], [150 + hx, -100], [-150 + hx, -86]], { f: P.gold.h, s: P.gold.f, l: P.gold.l, lw: LW });
     for (const x of [-150, 150]) { const B = new Path2D(); B.arc(x + hx, x < 0 ? -91 : -105, 9, 0, TAU); cel(g, B, { f: '#d8443a', l: '#5a1010', lw: LW }); }
   } else if (o.hat === 'daoji') {       // the Taoist's topknot with a jade crown and pin

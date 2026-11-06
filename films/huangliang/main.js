@@ -2,13 +2,13 @@
 import { canvas, W, H } from './cel.js';
 import { makePost } from './post.js';
 import { DUR, SHOTS, shotAt, HIT, LINES } from './timeline.js';
-import { makePlates, SH, REWIND } from './scenes.js';
+import { makePlates, SH, REWIND, setE } from './scenes.js';
 
 const qs = new URLSearchParams(location.search);
 const [sc, g] = canvas(W, H), [gc, e] = canvas(W, H), [ovc, ov] = canvas(W, H);
 const post = makePost(document.getElementById('gl'));
 await document.fonts.load('900 60px "Noto Sans SC"', '一锅饭的一生进士榜'); await document.fonts.load('700 60px "Noto Sans SC"', '黄粱一梦卢生');
-const A = makePlates();
+setE(e); const A = makePlates();
 let DURS = {}; try { const r = await fetch('voice/dur.json'); if (r.ok) DURS = await r.json(); } catch (x) { }
 const SUBS = LINES.map((v, i) => { const d = DURS[v.id] ?? [...v.zh].length * .2, nx = LINES[i + 1]; let b = v.at + Math.max(1.8, d + .6); if (nx) b = Math.min(b, nx.at - .1); return { ...v, a: v.at, b }; });
 window.SUBS = SUBS;
@@ -16,7 +16,7 @@ function wrap(s) { const out = []; let cur = ''; for (const ch of s) { cur += ch
 function subs(t) {
   ov.clearRect(0, 0, W, H);
   const v = SUBS.find(s => t >= s.a && t < s.b); if (!v) return;
-  const L = wrap(v.zh.replace(/[。]$/, '')), y0 = H - 300 - (L.length - 1) * 74;
+  const L = wrap(v.zh.replace(/[。]$/, '')), y0 = 1380 - (L.length - 1) * 37;
   ov.save(); ov.font = '700 60px "Noto Sans SC"'; ov.textAlign = 'center'; ov.textBaseline = 'middle'; ov.lineJoin = 'round';
   L.forEach((l, i) => { const y = y0 + i * 74; ov.shadowColor = 'rgba(0,0,0,.55)'; ov.shadowBlur = 10; ov.shadowOffsetY = 3; ov.strokeStyle = '#120a1e'; ov.lineWidth = 11; ov.strokeText(l, W / 2, y); ov.shadowColor = 'transparent'; ov.fillStyle = '#fff0a0'; ov.fillText(l, W / 2, y); });
   ov.restore();
@@ -29,16 +29,17 @@ function frameAt(t, extra = {}) {
 }
 function render(t) {
   let over;
-  if (t >= HIT.rew && t < 60) {          // rewind: earlier shots fly backwards, tracking noise, ◀◀
-    const u = (t - HIT.rew) / 5, k = Math.min(REWIND.length - 1, Math.floor(Math.pow(u, .8) * REWIND.length));
-    const S = SHOTS.find(s => s[2] === REWIND[k]), back = (Math.pow(u, .8) * REWIND.length - k);
-    over = frameAt(S[1] - .05 - back * (S[1] - S[0]) * .95);
+  if (t >= HIT.rew && t < 60) {          // rewind: the life's key moments fly backwards, tracking noise, ◀◀
+    const ICON = [48.6, 43.6, 40.0, 38.6, 28.2, 25.6, 22.0, 20.0, 13.4, 9.5];
+    const u = (t - HIT.rew) / 5, k = Math.min(ICON.length - 1, Math.floor(Math.pow(u, .75) * ICON.length));
+    over = frameAt(ICON[k] + (1 - (Math.pow(u, .75) * ICON.length - k)) * .25);
     SH.end.osd(g, '◀◀ 倒带', null);
-    over = { ...over, track: .55 + .3 * Math.sin(t * 13), noiseA: .05 };
+    over = { ...over, track: .45 + .3 * Math.sin(t * 13), noiseA: .05 };
+    if (t > 59.6) { const w = (t - 59.6) / .4; g.fillStyle = `rgba(255,248,232,${w})`; g.fillRect(0, 0, W, H); }
   } else over = frameAt(t);
   const fr = Math.round(t * 30);
   if (qs.get('nosub')) ov.clearRect(0, 0, W, H); else subs(t);
-  const crt = { power: Math.min(1, t / .5) };
+  const crt = { power: 1 };
   post.render(sc, gc, fr, ovc, qs.get('raw') ? { bloom: 0, halo: 0, scan: 0, grille: 0, glow: 0, corner: 0, noiseA: 0, power: 1, track: 0 } : { ...crt, ...over });
 }
 window.render = render; window.DUR = DUR;

@@ -12,11 +12,15 @@ const eo = x => 1 - Math.pow(1 - Math.max(0, Math.min(1, x)), 3);
 const st12 = t => Math.floor(t * 12) / 12, st8 = t => Math.floor(t * 8) / 8;
 
 // ================= characters =================
+let SCR = null; const SCRATCH = () => (SCR = SCR || canvas(W, H)[1]);
+let EG = null; export const setE = e => { EG = e; };
 export function bust(g, id, light, x, y, s, o = {}) {
   const c = CAST[id], P = pal(id, light);
   g.save(); g.translate(x, y); g.scale(s * (o.flip || 1), s); LWK.k = Math.min(1, 1.6 / s) * (o.lw || 1);
-  head80(g, P, { view: 'q', ponytail: false, headset: false, male: c.male, lady: c.lady, hat: c.hat, beard: c.beard, wind: .3, light: o.light || [-1, -.8], blush: c.male ? 0 : undefined, ...o });
+  const O = { view: 'q', ponytail: false, headset: false, male: c.male, lady: c.lady, hat: c.hat, beard: c.beard, wind: .3, light: o.light || [-1, -.8], blush: c.male ? 0 : undefined, ...o };
+  head80(g, P, O);
   LWK.k = 1; g.restore();
+  if (EG && g !== EG && !o.noStamp) { EG.save(); EG.translate(x, y); EG.scale(s * (o.flip || 1), s); EG.filter = 'brightness(0)'; head80(EG, P, O); EG.restore(); }
 }
 // full figure: long robe to the feet, hanging sleeves, the bust on top (body off). pose: down | raise | bow | run | kneel | walk
 export function figure(g, id, light, x, y, s, o = {}) {
@@ -159,10 +163,13 @@ function pillowInsert(S, t, lt) {
   cel(g, [[150, y + 120], [120, y - 60], [200, y - 170], [540, y - 130], [880, y - 170], [960, y - 60], [930, y + 120], [540, y + 160]], { f: '#7ac0a8', s: '#3e8a72', so: [-40, -16], h: '#c8f0e0', ho: [14, 10], l: '#14402e', lw: 5,
     clipFn: gg => { gg.fillStyle = rgba('#ffffff', .55); gg.beginPath(); gg.moveTo(100 + hl * 900, y - 200); gg.lineTo(180 + hl * 900, y - 200); gg.lineTo(120 + hl * 900, y + 200); gg.lineTo(40 + hl * 900, y + 200); gg.fill(); } });
   for (const x of [190, 890]) { const glow = ss(seg(t, HIT.glowHole - .6, HIT.glowHole + .4)); const p = new Path2D(); p.ellipse(x, y - 20, 50, 80, 0, 0, TAU); cel(g, p, { f: mix('#1a2a24', '#fff4d0', glow), l: '#14402e', lw: 5 }); airbrush(e, x, y - 20, 140, 200, '#ffe6a0', .9 * glow); }
-  // the old hand underneath (offering)
-  const hx = 540, hy = y + 260;
-  cel(g, [[hx - 200, hy + 400], [hx - 160, hy + 40], [hx - 60, hy - 20], [hx + 140, hy - 10], [hx + 180, hy + 60], [hx + 120, hy + 400]], { f: ROBES.dao.f, s: ROBES.dao.s, so: [-30, -10], l: ROBES.dao.l, lw: 4 });
-  cel(g, [[hx - 120, hy + 10], [hx - 60, hy - 60], [hx + 120, hy - 70], [hx + 150, hy - 20], [hx + 80, hy + 30]], { f: '#f0caa8', s: '#c89a80', so: [-10, -8], l: '#5a2e2e', lw: 3 });
+  // the old Taoist's hand underneath, palm up, offering (wide jade sleeve, thin old fingers)
+  const hx = 560, hy = y + 210;
+  cel(g, [[hx - 330, 1920], [hx - 300, hy + 220], [hx - 160, hy + 90], [hx + 60, hy + 120], [hx + 120, hy + 260], [hx + 60, 1920]], { f: ROBES.dao.f, s: ROBES.dao.s, so: [-40, -10], h: ROBES.dao.h, ho: [10, 6], l: ROBES.dao.l, lw: 5 });
+  cel(g, [[hx - 170, hy + 100], [hx - 120, hy + 40], [hx + 60, hy + 30], [hx + 80, hy + 110], [hx - 60, hy + 130]], { f: ROBES.hemp.f, s: ROBES.hemp.s, l: ROBES.hemp.l, lw: 3 });   // white inner cuff
+  cel(g, [[hx - 120, hy + 40], [hx - 140, hy - 20], [hx - 40, hy - 70], [hx + 140, hy - 66], [hx + 170, hy - 30], [hx + 60, hy + 34]], { f: '#f0caa8', s: '#c89a80', so: [-10, -10], h: '#ffe8d8', ho: [4, 4], l: '#5a2e2e', lw: 4 });
+  for (let k = 0; k < 4; k++) cel(g, [[hx + 40 + k * 26, hy - 64], [hx + 120 + k * 22, hy - 98 + k * 4], [hx + 136 + k * 22, hy - 86 + k * 4], [hx + 60 + k * 26, hy - 50]], { f: '#f0caa8', s: '#c89a80', l: '#5a2e2e', lw: 3 });
+  cel(g, [[hx - 130, hy - 10], [hx - 190, hy - 70], [hx - 170, hy - 90], [hx - 100, hy - 46]], { f: '#f0caa8', s: '#c89a80', l: '#5a2e2e', lw: 3 });
 }
 function boardInsert(S, t, lt) {
   const { g, e } = S;
@@ -240,15 +247,18 @@ SH.pillow = S => {
   return {};
 };
 SH.dive = S => {
-  const { t, lt } = S;
-  const z = Math.pow(1 + seg(t, 15.6, HIT.white) * 4, 2.2);
-  S.g.save(); S.g.translate(W / 2, H / 2); S.g.scale(z, z); S.g.translate(-890 + (890 - W / 2) * 0, -1000); S.e.save(); S.e.translate(W / 2, H / 2); S.e.scale(z, z); S.e.translate(-890, -1000);
-  const T = { ...S, g: S.g, e: S.e }; pillowInsert(T, HIT.glowHole + 1, 0);
-  S.g.restore(); S.e.restore();
-  speedLines(S.g, Math.floor(t * 12), { type: 'radial', cx: 540, cy: 960, n: 80, col: '#fff4d0', a: .5 * seg(t, 16.6, HIT.white), r0: 200 });
-  const wf = ss(seg(t, HIT.white - .9, HIT.white));
+  const { t } = S;
+  const u = seg(t, 15.6, HIT.white), z = Math.pow(1 + u * 4, 2.3);
+  S.g.save(); S.g.translate(W / 2, H / 2); S.g.scale(z, z); S.g.translate(-890, -1000);
+  const T = { ...S, e: SCRATCH() };
+  pillowInsert(T, HIT.glowHole + 1, 0);
+  S.g.restore();
+  // the hole's light grows to fill the frame (bounded glow)
+  const r = Math.min(700, 90 * z); airbrush(S.e, 540, 960, r, r * 1.4, '#ffe6a0', .55 * (1 - .5 * u));
+  speedLines(S.g, Math.floor(t * 12), { type: 'radial', cx: 540, cy: 960, n: 80, col: '#fff4d0', a: .55 * seg(t, 16.4, HIT.white), r0: 200 });
+  const wf = ss(seg(t, HIT.white - .5, HIT.white));
   S.g.fillStyle = rgba('#fff8e8', wf); S.g.fillRect(0, 0, W, H);
-  return { expo: 1 + wf * .3 };
+  return {};
 };
 SH.wedding = S => {
   const { t, lt } = S; bg(S, 'wedding');
@@ -267,7 +277,7 @@ SH.board = S => {
   bgPan(S, 'wedding', 0, 0, 1.2);
   speedLines(S.g, Math.floor(t * 12), { type: 'radial', cx: 540, cy: 860, n: 90, col: '#fff0c0', a: .45, r0: 300 });
   bust(S.g, 'lu', 'day', 540, 880, 3.3, { expr: 'surprised', E: { iris: .62, open: 1.15 }, light: [-1, -.8] });
-  flare(S.e, 470, 880, .7, '#ffffff');
+  flare(S.e, 480, 958, .28, '#ffffff');
   return {};
 };
 SH.robes = S => {
@@ -285,14 +295,16 @@ SH.robes = S => {
 SH.rival = S => {
   const { t } = S; bg(S, 'night');
   bust(S.g, 'luFei', 'night', 330, 1180, 2.2, { expr: 'neutral', E: { look: [.6, 0] }, light: [1, -.4] });
-  bust(S.g, 'rival', 'night', 820, 760, 2.4, { flip: -1, expr: 'smile', E: { open: .35, lid: .6, brow: [6, -6, 1], mouth: st8(t) % .25 < .125 ? 'talk' : 'smile' }, light: [-1, -.2], rim: { c: '#ff4fa8', d: [6, 0] } });
+  bust(S.g, 'rival', 'night', 800, 720, 2.6, { flip: -1, expr: 'smile', E: { open: .3, lid: .7, iris: .7, brow: [10, -10, -1], mouth: st8(t) % .25 < .125 ? 'talk' : 'smile', look: [.8, .1] }, light: [-1, .3], rim: { c: '#ff4fa8', d: [6, 0] } });
+  S.g.save(); S.g.globalCompositeOperation = 'source-atop'; S.g.fillStyle = 'rgba(10,4,24,.55)'; S.g.fillRect(800, 0, 280, 1300); S.g.restore();
   return { tint: [.9, .86, 1.06] };
 };
 SH.exile = S => {
   const { t, lt } = S;
   if (t < HIT.impact1 + .2 && t >= S.t0) { if (lt < .07) return impact(S, 'luFei'); }
   bgPan(S, 'exile', 0, lerp(0, -40, lt / 2.3), 1.04);
-  figure(S.g, 'luFei', 'dusk', lerp(560, 600, lt / 2.3), 1430 - lt * 20, .09, { pose: 'walk', ph: t * 1.4, view: 'side', flip: 1 });
+  airbrush(S.g, 600, 1400, 120, 40, '#ffd8b0', .5);
+  figure(S.g, 'luFei', 'dusk', lerp(560, 600, lt / 2.3), 1430 - lt * 20, .18, { pose: 'walk', ph: t * 1.4, view: 'side', flip: 1 });
   return {};
 };
 SH.run = S => {
@@ -332,17 +344,23 @@ SH.knife = S => { if (S.lt < .07 || (S.t >= HIT.impact2 && S.t < HIT.impact2 + .
 SH.grip = S => {
   const { g, t, lt } = S; bg(S, 'prison');
   const shake = Math.sin(t * 60) * 6 * (1 - seg(lt, 0, 1.2));
+  const SK = { f: '#f0caa8', s: '#c89a80', so: [-10, -8], h: '#ffe8d8', ho: [3, 3], l: '#5a2e2e', lw: 4 };
   g.save(); g.translate(shake, 0);
-  // his forearm and fist on the hilt (hemp sleeve), the blade going up off frame
-  cel(g, [[-100, 1500], [380, 1180], [460, 1300], [-40, 1700]], { f: ROBES.hemp.f, s: ROBES.hemp.s, so: [-20, -10], l: ROBES.hemp.l, lw: 4 });
-  cel(g, [[420, 1120], [560, 1080], [620, 1200], [520, 1300], [430, 1260]], { f: '#f0caa8', s: '#c89a80', so: [-10, -8], l: '#5a2e2e', lw: 4 });
-  cel(g, [[540, 1110], [580, 1090], [720, 300], [700, 280]], { f: '#dfe7f3', s: '#8a98b8', l: '#2b3350', lw: 4 });
-  // her hand closes around his wrist (bride red sleeve from the right)
+  // his hemp sleeve and forearm from the lower left; the fist around the hilt; the blade rising out of frame
+  cel(g, [[-120, 1920], [-160, 1560], [300, 1250], [420, 1330], [80, 1920]], { f: ROBES.hemp.f, s: ROBES.hemp.s, so: [-24, -10], h: ROBES.hemp.h, ho: [6, 4], l: ROBES.hemp.l, lw: 5 });
+  cel(g, [[300, 1250], [380, 1190], [470, 1230], [430, 1330]], SK);
+  cel(g, [[500, 1060], [560, 1060], [560, 1330], [500, 1330]], { f: '#5a3a2a', s: '#3a2418', l: '#1a0e08', lw: 4 });           // hilt
+  cel(g, [[460, 1040], [600, 1040], [600, 1066], [460, 1066]], { f: '#c8a050', s: '#8a6a30', l: '#3a2a10', lw: 4 });           // guard
+  cel(g, [[510, 1040], [550, 1040], [544, 200], [530, 150], [516, 200]], { f: '#dfe7f3', s: '#8a98b8', so: [-8, 0], h: '#ffffff', ho: [3, 0], l: '#2b3350', lw: 4 });
+  for (let k = 0; k < 4; k++) cel(g, [[440, 1120 + k * 52], [600, 1110 + k * 52], [612, 1150 + k * 52], [600, 1166 + k * 52], [450, 1170 + k * 52]], SK);   // his four fingers wrapped round the hilt
+  cel(g, [[420, 1150], [480, 1080], [520, 1096], [470, 1170]], SK);                                                             // thumb
+  // her hand closes round his wrist from the right: a red sleeve with a gold cuff, slim fingers
   const k = eo(seg(t, HIT.grab, HIT.grab + .25));
-  g.save(); g.translate(lerp(500, 0, k), lerp(200, 0, k));
-  cel(g, [[1200, 900], [700, 1100], [640, 1240], [1200, 1300]], { f: ROBES.bride.f, s: ROBES.bride.s, so: [-20, -10], l: ROBES.bride.l, lw: 4 });
-  cel(g, [[640, 1100], [380, 1150], [340, 1230], [420, 1300], [620, 1260]], { f: '#ffdcc8', s: '#e0a898', so: [-8, -6], l: '#5a2e2e', lw: 4 });
-  for (let i = 0; i < 4; i++) line(g, [[400 + i * 40, 1160 + i * 6], [370 + i * 40, 1280]], '#5a2e2e', 3);
+  g.save(); g.translate(lerp(520, 0, k), lerp(160, 0, k));
+  cel(g, [[1200, 1180], [760, 1300], [700, 1440], [1200, 1560]], { f: ROBES.bride.f, s: ROBES.bride.s, so: [-24, -10], h: ROBES.bride.h, ho: [6, 4], l: ROBES.bride.l, lw: 5 });
+  cel(g, [[760, 1300], [730, 1290], [690, 1440], [720, 1450]], { f: '#e0b050', s: '#a07830', l: '#4a3010', lw: 3 });
+  cel(g, [[720, 1320], [560, 1290], [420, 1300], [400, 1360], [560, 1420], [700, 1430]], { f: '#ffdcc8', s: '#e0a898', so: [-8, -6], h: '#fff2ea', ho: [3, 3], l: '#5a2e2e', lw: 4 });
+  for (let i = 0; i < 4; i++) cel(g, [[440 - i * 6, 1300 + i * 22], [330 - i * 4, 1290 + i * 26], [320 - i * 4, 1312 + i * 26], [430 - i * 6, 1326 + i * 22]], { f: '#ffdcc8', s: '#e0a898', l: '#5a2e2e', lw: 3 });
   g.restore(); g.restore();
   return { tint: [.92, .9, 1.04] };
 };
@@ -360,11 +378,11 @@ SH.peak = S => {      // a painted harmony still, slow pan; the crown
 };
 SH.family = S => {
   const { t, lt } = S; bg(S, 'peak');
-  figure(S.g, 'luZi', 'day', 540, 1050, .5, { view: 'q', expr: 'smile' });
-  figure(S.g, 'cui', 'day', 760, 1080, .46, { view: 'q', flip: -1, expr: 'smile' });
-  const kids = [[200, 1290, .3], [330, 1310, .3], [860, 1320, .3], [960, 1300, .3], [100, 1420, .28], [440, 1460, .2], [560, 1480, .2], [680, 1460, .2], [800, 1480, .2], [920, 1470, .2]];
-  kids.forEach(([x, y, s], i) => { if (lt > i * .12) figure(S.g, i < 5 ? 'luFei' : 'luQing', 'day', x, y, s, { view: 'q', flip: i % 2 ? -1 : 1, expr: 'smileopen', pose: i > 4 ? 'raise' : 'down', ph: st12(t) * 2 + i }); });
-  return {};
+  figure(S.g, 'luZi', 'day', 540, 820, .42, { view: 'q', expr: 'smile' });
+  figure(S.g, 'cui', 'day', 760, 850, .38, { view: 'q', flip: -1, expr: 'smile' });
+  for (let i = 0; i < 5; i++) { const k = eo(seg(lt, .15 + i * .18, .35 + i * .18)); if (k <= 0) continue; figure(S.g, i % 2 ? 'luLv' : 'luFei', 'day', 140 + i * 200, 1260 - (1 - k) * 60, .3 * (.6 + .4 * k), { view: 'q', flip: i < 2 ? 1 : -1, expr: 'smileopen' }); }
+  for (let i = 0; i < 8; i++) { const k = eo(seg(lt, 1.1 + i * .08, 1.25 + i * .08)); if (k <= 0) continue; figure(S.g, 'luQing', 'day', 80 + i * 132, 1560 - (1 - k) * 40, .19, { view: 'q', flip: i % 2 ? -1 : 1, expr: 'smileopen', pose: 'raise', ph: st12(t) * 2 + i }); }
+  return { bloom: .7 };
 };
 SH.old = S => {       // the same composition repainted: white hair, lying down
   const { t, lt } = S; bgPan(S, 'peak', 0, -40, 1.12);
@@ -390,13 +408,18 @@ SH.lid = S => {
   const { t, lt } = S;
   const up = eo(seg(t, HIT.lid, HIT.lid + .4));
   potInsert(S, t, { boil: .3, lidUp: up * 360, lidX: up * 200, lidR: up * .35, millet: up > .05 });
-  if (up > .9) { S.g.save(); S.g.font = '900 72px "Noto Sans SC"'; S.g.textAlign = 'center'; S.g.lineJoin = 'round'; S.g.strokeStyle = '#1a0a2a'; S.g.lineWidth = 12; S.g.strokeText('……还是生的', 540, 760); S.g.fillStyle = '#fff0a0'; S.g.fillText('……还是生的', 540, 760); S.g.restore(); }
   return {};
 };
 SH.wake = S => {
   const { t } = S; bgPan(S, 'innInt', 0, 0, 1.05);
   const k = seg(st8(t), HIT.wakeOpen, HIT.wakeOpen + .4);
   bust(S.g, 'lu', 'dusk', 560, 980, 4.6, { flip: -1, expr: 'surprised', E: { open: lerp(0, 1.1, k), iris: .7 }, light: [1, -.6], lw: .8 });
+  return {};
+};
+SH.react = S => {      // he stares, then a wry smile: he understands
+  const { t } = S; bgPan(S, 'innInt', 0, 0, 1.05);
+  const sm = t > HIT.react;
+  bust(S.g, 'lu', 'dusk', 560, 900, 3.6, { flip: -1, expr: sm ? 'smile' : 'surprised', E: sm ? { open: .5, lid: .3, brow: [-6, 3, 1], look: [0, .3] } : { open: 1, iris: .66 }, light: [1, -.6], lw: .9 });
   return {};
 };
 SH.lvsmile = S => { bgPan(S, 'innInt', -60, 0, 1.08); bust(S.g, 'lv', 'dusk', 520, 880, 2.8, { expr: 'smileopen', E: { open: .4, lid: .4 }, light: [1, -.6] }); return {}; };
