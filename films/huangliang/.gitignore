@@ -4,3 +4,5 @@ stills3/
 out/
 voice/.cache/
 storyboard/.font.ttf
+music/stems/
+music/score.wav

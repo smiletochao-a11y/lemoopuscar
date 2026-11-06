@@ -1,0 +1,20 @@
+一锅饭的一生（黄粱一梦） — third-party material and licences
+
+Story
+- After 沈既济《枕中记》 (Tang dynasty, public domain). Tang official robe colours after the Zhenguan 4 (630) dress code.
+
+Narration
+- Doubao speech synthesis 2.0 (Volcengine / ByteDance), voice 解说小明 (zh_male_jieshuoxiaoming_uranus_bigtts), generated with the
+  owner's own API key. Usage of the audio is governed by the owner's Volcengine service agreement.
+- Speech check: faster-whisper (MIT).
+
+Music and sound
+- Original city-pop score synthesised in numpy (instrument kit adapted from this library's cel-anime-80s style); all foley synthesised.
+  No samples, no recordings.
+
+Fonts (SIL Open Font License 1.1)
+- Noto Sans SC (Google); subsets via Google Fonts.
+
+Pictures
+- All characters, backgrounds and effects drawn by code (Canvas 2D + WebGL), after the 80s cel-anime style of this library.
+  Original characters; no existing work's characters, logos or shots.
